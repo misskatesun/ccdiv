@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">象棋卜卦命盤解讀 _ 個案</title>
+    <style>
+        :root {
+            --primary-color: #7a5c53;
+            --secondary-color: #c49a6c;
+            --bg-color: #faf6f0;
+            --card-bg: #ffffff;
+            --text-color: #3d3531;
+            --clean-bg: #f5eeea;
+            --clean-text: #5c453c;
+            --download-bg: #edf4f0;
+            --download-text: #1d5238;
+            --accent-gold: #b38b32;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(122, 92, 83, 0.08);
+            border: 1px solid #ebdcd0;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--primary-color);
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dcd0c7;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #fcfaf8;
+            color: var(--text-color);
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eee1d8;
+            padding-bottom: 6px;
+            margin-top: 22px;
+            margin-bottom: 12px;
+        }
+
+        .category-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 15px;
+        }
+
+        .btn-select-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-mini {
+            background: #f0e4db;
+            color: var(--primary-color);
+            border: 1px solid #d8c4b6;
+            padding: 2px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-mini:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 6px;
+            transition: background 0.15s;
+        }
+
+        .checkbox-item:hover {
+            background: #f7efe9;
+        }
+
+        .checkbox-item input {
+            margin-top: 4px;
+            accent-color: var(--primary-color);
+        }
+
+        .btn-main {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            font-size: 14.5px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 2px 6px rgba(122, 92, 83, 0.15);
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .btn-main:hover {
+            background-color: #654a42;
+            transform: translateY(-1px);
+        }
+
+        /* 整理按鈕區塊樣式 */
+        .action-card {
+            background: #fdfaf7;
+            border: 1px solid #eee1d8;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-top: 15px;
+        }
+
+        .action-card-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 500px) {
+            .btn-grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btn-copy {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-copy:hover {
+            background-color: #b08759;
+        }
+
+        .btn-print {
+            background-color: #537367;
+        }
+
+        .btn-print:hover {
+            background-color: #425e53;
+        }
+
+        .btn-clean-bg {
+            background-color: #8c5d49;
+        }
+
+        .btn-clean-bg:hover {
+            background-color: #734837;
+        }
+
+        .btn-download-bg {
+            background-color: #2e6b4d;
+        }
+
+        .btn-download-bg:hover {
+            background-color: #1f4f37;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1.5px solid var(--primary-color);
+            color: var(--primary-color);
+            box-shadow: none;
+        }
+
+        .btn-outline:hover {
+            background-color: #f5eae2;
+            color: var(--primary-color);
+        }
+
+        .btn-outline-clean {
+            border-color: #8c5d49;
+            color: #8c5d49;
+        }
+
+        .btn-outline-clean:hover {
+            background-color: #fcefe9;
+        }
+
+        .btn-outline-download {
+            border-color: #2e6b4d;
+            color: #2e6b4d;
+        }
+
+        .btn-outline-download:hover {
+            background-color: #eaf5ef;
+        }
+
+        /* 預覽與 PDF 渲染排版 */
+        .report-preview-wrapper {
+            background: #fcfaf7;
+            padding: 2px;
+            border-radius: 12px;
+            border: 1px solid #e8dbd0;
+        }
+
+        .report-preview {
+            background: #ffffff;
+            padding: 35px 30px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #333;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        }
+
+        .report-header-box {
+            text-align: center;
+            border-bottom: 2px solid #e0d0c3;
+            padding-bottom: 18px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .report-header-box::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary-color);
+            margin: 12px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        .report-header-box h2 {
+            margin: 0 0 8px 0;
+            font-size: 22px;
+            letter-spacing: 2px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .report-meta {
+            font-size: 13.5px;
+            color: #776860;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px 20px;
+            margin-top: 10px;
+        }
+
+        .report-section {
+            margin-bottom: 24px;
+            page-break-inside: avoid;
+        }
+
+        .section-title-bar {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            background: linear-gradient(135deg, #7a5c53, #947167);
+            padding: 6px 14px;
+            border-radius: 6px;
+            margin-bottom: 14px;
+            letter-spacing: 1px;
+            display: inline-block;
+        }
+
+        .item-card {
+            background: #fdfbf9;
+            border: 1px solid #f0e4db;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            page-break-inside: avoid;
+        }
+
+        .label-clean {
+            font-size: 12px;
+            font-weight: 700;
+            color: #8c5d49;
+            background: #f5eae2;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .text-clean {
+            font-size: 14px;
+            color: #4a3c35;
+            padding-left: 4px;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .label-download {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1b6341;
+            background: #e2f0e8;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .text-download {
+            font-size: 14px;
+            color: #17422d;
+            font-weight: 500;
+            padding-left: 4px;
+            line-height: 1.6;
+        }
+
+        .method-box {
+            background: #fcf8f5;
+            border: 1px dashed #d8c4b6;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-top: 25px;
+            margin-bottom: 20px;
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: #4a3d37;
+        }
+
+        .method-box h3 {
+            font-size: 16px;
+            color: #7a5c53;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ebdcd0;
+            padding-bottom: 6px;
+        }
+
+        .method-section {
+            margin-bottom: 12px;
+        }
+
+        .method-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .method-section strong {
+            color: #8c5d49;
+        }
+
+        .report-footer-box {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #ebdcd0;
+            font-size: 16px;
+            font-weight: 700;
+            color: #654a42;
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+
+        .social-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .social-icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #f0e4db;
+            color: var(--primary-color);
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .social-icon-link:hover {
+            background: var(--primary-color);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .social-icon-link svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* 專屬列印／PDF 顯示網址樣式 */
+        .print-url {
+            display: none;
+            font-size: 12px;
+            color: #555;
+            font-weight: normal;
+        }
+
+        /* 專屬 PDF 列印極致美化樣式 */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm 12mm;
+            }
+
+            body {
+                background: white !important;
+                padding: 0 !important;
+                color: #2b231f !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .container {
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .panel:first-child, .action-card {
+                display: none !important;
+            }
+
+            .panel {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                background: transparent !important;
+            }
+
+            .report-preview-wrapper {
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
+            }
+
+            .report-preview {
+                padding: 0 !important;
+                box-shadow: none !important;
+            }
+
+            .report-header-box h2 {
+                font-size: 24pt !important;
+                color: #6b4d44 !important;
+            }
+
+            .section-title-bar {
+                background: #6b4d44 !important;
+                color: #ffffff !important;
+                font-size: 12pt !important;
+                padding: 5px 12px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .item-card {
+                background: #faf6f2 !important;
+                border: 1px solid #e6d8ce !important;
+                border-left: 5px solid #b88e5d !important;
+                padding: 10pt 12pt !important;
+                margin-bottom: 10pt !important;
+                page-break-inside: avoid !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .label-clean {
+                background: #eedfd5 !important;
+                color: #734837 !important;
+                font-size: 9.5pt !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .label-download {
+                background: #d9ebd1 !important;
+                color: #174f32 !important;
+                font-size: 9.5pt !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .text-clean, .text-download {
+                font-size: 10.5pt !important;
+            }
+
+            .method-box {
+                background: #fbf8f5 !important;
+                border: 1px dashed #c8b4a6 !important;
+                page-break-inside: avoid !important;
+            }
+
+            .report-footer-box {
+                font-size: 13pt !important;
+                font-weight: bold !important;
+                color: #523b34 !important;
+            }
+
+            a {
+                color: #1b6341 !important;
+                text-decoration: underline !important;
+            }
+
+            .social-links {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 6px !important;
+            }
+
+            .social-icon-link {
+                background: transparent !important;
+                border: none !important;
+                width: auto !important;
+                height: auto !important;
+                border-radius: 0 !important;
+                display: flex !important;
+                gap: 6px !important;
+            }
+
+            .print-url {
+                display: inline-block !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="panel">
+        <h2>象棋卜卦命盤解讀</h2>
+        
+        <div class="form-group">
+            <label for="interpretDate">解讀日期：</label>
+            <input type="date" id="interpretDate">
+        </div>
+
+        <div class="form-group">
+            <label for="clientName">個案姓名：</label>
+            <input type="text" id="clientName" placeholder="請輸入個案姓名" oninput="updatePageTitle()">
+        </div>
+        
+        <div class="form-group">
+            <label for="clientBirth">個案出生年月日：</label>
+            <input type="date" id="clientBirth" value="1990-01-01" max="9999-12-31">
+        </div>
+
+        <div class="form-group">
+            <label for="readerName">解讀者：</label>
+            <input type="text" id="readerName" value="凱特" placeholder="請輸入解讀者姓名">
+        </div>
+
+        <div id="checkboxContainer">
+            </div>
+
+        <button class="btn-main" style="margin-top:20px;" onclick="generateReport('all')">一鍵生成解讀報告</button>
+    </div>
+
+    <div class="panel">
+        <div class="report-preview-wrapper">
+            <div id="reportOutput" class="report-preview">
+                請在左側輸入資料與勾選項目，並點擊「一鍵生成解讀報告」。
+            </div>
+        </div>
+
+        <div class="action-card">
+            <div class="action-card-title">📜 完整報告操作</div>
+            <div class="btn-grid-2">
+                <button class="btn-main btn-copy" onclick="copyReport()">📋 複製內容 (LINE/文字)</button>
+                <button class="btn-main btn-print" onclick="printMode('all')">🖨️ 另存 PDF / 列印</button>
+            </div>
+        </div>
+
+        <div class="action-card">
+            <div class="action-card-title">🧹 分類單獨生成與下載</div>
+            <div class="btn-grid-2" style="margin-bottom: 8px;">
+                <button class="btn-main btn-outline btn-outline-clean" onclick="generateReport('clean')">預覽【清理資料】</button>
+                <button class="btn-main btn-clean-bg" onclick="printMode('clean')">📄 下載【清理】PDF</button>
+            </div>
+            <div class="btn-grid-2">
+                <button class="btn-main btn-outline btn-outline-download" onclick="generateReport('download')">預覽【下載資料】</button>
+                <button class="btn-main btn-download-bg" onclick="printMode('download')">📄 下載【下載】PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// 設定今天的預設日期
+document.getElementById('interpretDate').valueAsDate = new Date();
+
+// 日期輸入框西元打到 4 位數自動換到月份邏輯
+document.getElementById('clientBirth').addEventListener('keyup', function(e) {
+    const val = this.value;
+    if (val && val.indexOf('-') !== -1) {
+        const parts = val.split('-');
+        if (parts[0] && parts[0].length === 4) {
+            // 自動觸發模擬按下 Tab / 右方向鍵切換輸入焦點
+        }
+    }
+});
+
+// 更新網頁 Title 以利列印或另存 PDF 檔名正確
+function updatePageTitle() {
+    const name = document.getElementById('clientName').value.trim() || "個案";
+    document.title = `象棋卜卦命盤解讀 _ ${name}`;
+}
+
+// 計算生命靈數邏輯
+function calculateLifePathNumber(birthDateStr) {
+    if (!birthDateStr) return '';
+    
+    // 清除非數字字元
+    const cleanStr = birthDateStr.replace(/\D/g, '');
+    if (cleanStr.length !== 8) return '';
+    
+    // 第一次加總
+    let sum1 = 0;
+    for (let char of cleanStr) {
+        sum1 += parseInt(char, 10);
+    }
+    
+    // 建立中間加總陣列
+    let intermediateSums = [sum1];
+    
+    let currentSum = sum1;
+    while (currentSum >= 10) {
+        let tempSum = 0;
+        let sumStr = currentSum.toString();
+        for (let char of sumStr) {
+            tempSum += parseInt(char, 10);
+        }
+        currentSum = tempSum;
+        intermediateSums.push(currentSum);
+    }
+    
+    // 格式化日期：YYYY.MM.DD
+    const formattedDate = `${cleanStr.substring(0,4)}.${cleanStr.substring(4,6)}.${cleanStr.substring(6,8)}`;
+    
+    // 組合號碼字串
+    const lifePathStr = intermediateSums.join('.');
+    
+    return `${formattedDate}（${lifePathStr}號人）`;
+}
+
+// 資料庫：包含判讀與對應的清理/下載文字
+const optionsData = [
+    {
+        categoryIndex: 0,
+        category: "一、 大腦小我慣性資料",
+        items: [
+            { id: "mind_1", label: "想控制、對人事物有既定想法（將帥士車）", clean: "想控制、對人事物境有既定想法", download: "我知道如何放下小我、感到順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
+            { id: "mind_2", label: "被動、情緒起伏大（象）", clean: "懶懶被動、情緒起伏大", download: "我知道如何感到積極熱情、順流平靜" },
+            { id: "mind_3", label: "意念靜不下來、濫好人（馬）", clean: "意念靜不下來、很想有所作為、濫好人", download: "我是被支持的、順流平靜、接納自己、讓自己如其所是、有界線" },
+            { id: "mind_4", label: "恐懼擔憂、急於改變（炮）", clean: "恐懼擔憂、很想有所作為", download: "我是被支持的、我是安全的、我是平安的、順流平靜、接納自己、讓自己如其所是" },
+            { id: "mind_5", label: "思慮過多、自我消耗（兵卒）", clean: "思慮過多、自我消耗", download: "我知道如何感到順流平靜、接納自己、讓自己如其所是" }
+        ]
+    },
+    {
+        categoryIndex: 1,
+        category: "二、 運勢資料",
+        items: [
+            { id: "luck_1", label: "阻礙發展（犯小人）", clean: "被人事物境阻礙想要的發展", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人" },
+            { id: "luck_2", label: "辛苦無成（付出大於收穫）", clean: "付出大於收穫、總是要很辛苦", download: "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼" },
+            { id: "luck_3", label: "糾紛與官司（法律官司）", clean: "法律官司、糾紛、名譽受損", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是" },
+            { id: "luck_4", label: "重來與努力白費（通吃/被通吃）", clean: "重新來過、努力白費、總是要很辛苦", download: "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼" },
+            { id: "luck_5", label: "事與願違（全紅全黑/陰陽不協調）", clean: "事與願違", download: "我知道如何感到順流平靜、接納自己、讓自己如其所是、我值得一切的美好" },
+            { id: "luck_6", label: "價值觀不同、格格不入（分離格）", clean: "與人格格不入、價值觀不同、分隔兩地", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起" },
+            { id: "luck_7", label: "十年運破財（被吃較多）", clean: "破財", download: "我是豐盛的源頭、我值得豐盛、我知道有餘裕的感覺是什麼、擁有財富是安全的" }
+        ]
+    },
+    {
+        categoryIndex: 2,
+        category: "三、 學習、情感與事業資料",
+        items: [
+            { id: "les_1", label: "難學以致用（學習格 馬/炮在中間）", clean: "學習上較難學以致用", download: "我學習是輕鬆愉快的" },
+            { id: "les_2", label: "主觀質疑、難吸收（學習格 將帥）", clean: "學習時大腦容易以主觀想法質疑老師、教材、難以吸收", download: "我知道如何放下小我、感到順流平靜、全然交托、全然信任宇宙的安排" },
+            { id: "love_1", label: "離異或分隔兩地（女生總格 離婚格）", clean: "離婚、分隔兩地", download: "我值得被尊重、我值得和靈魂伴侶白頭偕老、愛情是永恆的" },
+            { id: "love_2", label: "感情中容易受傷（情感格 犯小人/被往上吃）", clean: "情感中容易受傷", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起、我全然地愛自己" },
+            { id: "biz_1", label: "無貴人、凡事靠自己（事業格 無法往上吃）", clean: "總是要靠自己、較沒有貴人", download: "我值得和志同道合的靈魂家人在一起、我全然地愛自己、人人皆是我的貴人" }
+        ]
+    },
+    {
+        categoryIndex: 3,
+        category: "四、 健康平安資料",
+        items: [
+            { id: "hea_1", label: "車關與血光（車關/馬被吃）", clean: "有車關與血光的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" },
+            { id: "hea_2", label: "氣血循環與頭痛（將帥）", clean: "頭痛、氣血循環困擾", download: "我是健康的、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
+            { id: "hea_3", label: "呼吸系統與肺腸（士）", clean: "肺、腸、皮膚、支氣管健康困擾", download: "我是健康的、我能表達我想要的、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
+            { id: "hea_4", label: "肝膽與眼睛（車）", clean: "肝膽、眼睛健康困擾", download: "我是健康的、我能看見真相、並心口合一、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
+            { id: "hea_5", label: "心血管與小腸（象）", clean: "心血管、小腸健康困擾", download: "我是健康的、我全然地愛自己、順流平靜、接納自己、讓自己如其所是、我被全然地愛著" },
+            { id: "hea_6", label: "關節筋絡（馬）", clean: "關節筋絡健康困擾", download: "我是健康的、我是被支持的、我是安全的、我是平安的、我的靈魂是永恆的" },
+            { id: "hea_7", label: "腎臟婦科/泌尿系統（炮）", clean: "腎臟、攝護腺/婦科、泌尿系統、骨頭、耳朵健康困擾", download: "我是健康的、我全然愛我自己、我知道如何放鬆、我值得快樂、我是安全的、我被全然地愛著" },
+            { id: "hea_8", label: "脾胃消化系統（兵卒）", clean: "脾胃消化困擾", download: "我是健康的、我信任我自己、我所做的決定都是對的" },
+            { id: "hea_9", label: "突發狀況/血光（被將帥/士威脅）", clean: "突發狀況與血光的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" },
+            { id: "hea_10", label: "生死關能量淨化（生死關）", clean: "離世的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" }
+        ]
+    }
+];
+
+// 動態繪製勾選項
+function renderCheckboxes() {
+    const container = document.getElementById('checkboxContainer');
+    let html = '';
+
+    optionsData.forEach((cat, idx) => {
+        html += `
+            <div class="category-header">
+                <span class="category-title">${cat.category}</span>
+                <div class="btn-select-group">
+                    <button type="button" class="btn-mini" onclick="toggleCategory(${idx}, true)">全選</button>
+                    <button type="button" class="btn-mini" onclick="toggleCategory(${idx}, false)">取消全選</button>
+                </div>
+            </div>
+            <div class="checkbox-group">
+        `;
+        cat.items.forEach(item => {
+            html += `
+                <label class="checkbox-item">
+                    <input type="checkbox" id="${item.id}" value="${item.id}">
+                    <span>${item.label}</span>
+                </label>
+            `;
+        });
+        html += `</div>`;
+    });
+
+    container.innerHTML = html;
+}
+
+// 切換特定分區全選/取消全選
+function toggleCategory(categoryIndex, selectAll) {
+    const category = optionsData[categoryIndex];
+    if (!category) return;
+    category.items.forEach(item => {
+        const cb = document.getElementById(item.id);
+        if (cb) cb.checked = selectAll;
+    });
+}
+
+// 生成報告（支援模式：'all' 完整報告 / 'clean' 僅清理 / 'download' 僅下載）
+function generateReport(mode = 'all') {
+    updatePageTitle();
+    const name = document.getElementById('clientName').value.trim() || "OOO";
+    const date = document.getElementById('interpretDate').value || new Date().toISOString().split('T')[0];
+    const birthRaw = document.getElementById('clientBirth').value;
+    const reader = document.getElementById('readerName').value.trim() || "凱特";
+    
+    const birthLifePath = calculateLifePathNumber(birthRaw);
+
+    let titleText = "象棋卜卦命盤解讀";
+    if (mode === 'clean') titleText = "象棋卜卦命盤解讀 _ 推薦療癒清理資料";
+    if (mode === 'download') titleText = "象棋卜卦命盤解讀 _ 推薦下載資料";
+
+    let reportHTML = `
+        <div class="report-header-box">
+            <h2>${titleText}</h2>
+            <div class="report-meta">
+                <span><strong>解讀日期：</strong>${date}</span>
+                <span><strong>個案姓名：</strong>${name}</span>
+                ${birthLifePath ? `<span><strong>出生年月日：</strong>${birthLifePath}</span>` : ''}
+                ${reader ? `<span><strong>解讀者：</strong>${reader}</span>` : ''}
+            </div>
+        </div>
+    `;
+
+    optionsData.forEach(cat => {
+        let catItemsHTML = '';
+
+        cat.items.forEach(item => {
+            const checkbox = document.getElementById(item.id);
+            if (checkbox && checkbox.checked) {
+                let itemContent = '';
+
+                if (mode === 'all' || mode === 'clean') {
+                    itemContent += `
+                        <div><span class="label-clean">【推薦療癒清理的資料】</span></div>
+                        <div class="text-clean">• 體驗的人生劇情：${item.clean}</div>
+                    `;
+                }
+
+                if (mode === 'all' || mode === 'download') {
+                    itemContent += `
+                        <div><span class="label-download">【推薦下載的資料】</span></div>
+                        <div class="text-download">✦ ${item.download}</div>
+                    `;
+                }
+
+                catItemsHTML += `
+                    <div class="item-card">
+                        ${itemContent}
+                    </div>
+                `;
+            }
+        });
+
+        if (catItemsHTML !== '') {
+            reportHTML += `
+                <div class="report-section">
+                    <div class="section-title-bar">${cat.category}</div>
+                    ${catItemsHTML}
+                </div>
+            `;
+        }
+    });
+
+    // 療癒清理與下載資料方法區塊
+    if (mode === 'all' || mode === 'clean') {
+        reportHTML += `
+            <div class="method-box">
+                <h3>【療癒清理資料方法】</h3>
+                <div class="method-section">
+                    <strong>🧹 默唸【零極限】：</strong><br>
+                    <strong>精簡版：</strong>對不起、請原諒我、謝謝你、我愛你<br>
+                    <strong>完整版：</strong>${name} 對不起、請原諒過去的我不明白、才有這樣的資料，XX（對方的名字、如果有他人的話）謝謝你、給我機會清理這個資料，我愛你。
+                </div>
+                <div class="method-section">
+                    <strong>🧹 宣告一下：</strong><br>
+                    我（們）的本質（都）是沒有任何問題的，只是有些資料、才會演了這個劇情。資料也不是我（們）的，是過去世的祖先或前世，有著類似的傷痛經驗，他們也不是故意的，沒有人是故意的。
+                </div>
+                <div class="method-section">
+                    <strong>🧹 唸數遍經文、咒，如：</strong><br>
+                    嗡啊吽、南無阿彌陀佛、南無觀世音菩薩、地藏菩薩摩訶薩、廣大不空摩尼咒、聖經…等
+                </div>
+            </div>
+        `;
+    }
+
+    if (mode === 'all' || mode === 'download') {
+        reportHTML += `
+            <div class="method-box">
+                <h3>【下載資料方法】</h3>
+                <div class="method-section">
+                    🌱 每天唸這些資料給自己聽，讓大腦表意識記得後，漸漸會進入到潛意識、也就是個人意識資料庫中
+                </div>
+                <div class="method-section">
+                    🌱 到宇宙源頭的白光中對宇宙源頭說：「請為我下載這個資料，謝謝你、我愛你」想像宇宙源頭白光無條件的愛、化身為你想要下載的資料，也想像你有個個人意識資料庫（例如：一顆懸浮在你頭頂的光球），再想像白光資料進入到你的資料庫中。
+                </div>
+                <div class="method-section" style="margin-top: 8px;">
+                    （如何連結宇宙源頭的白光可參考凱特這支影片：https://youtu.be/ydKdGoucbgc ）
+                </div>
+            </div>
+        `;
+    }
+
+    // 結尾祝福語與社群導流
+    reportHTML += `
+        <div class="report-footer-box">
+            願你在每一個當下，都能活出真實的自己，感受到輕而易舉、本自具足。宇宙愛你💖
+            <div class="social-title">凱特的社群平台</div>
+            <div class="social-links">
+                <a href="https://www.youtube.com/@katesungoodlife" target="_blank" class="social-icon-link" title="YouTube">
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    <span class="print-url">YouTube: https://www.youtube.com/@katesungoodlife</span>
+                </a>
+                <a href="https://www.facebook.com/katesuncourse" target="_blank" class="social-icon-link" title="Facebook">
+                    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    <span class="print-url">FB: https://www.facebook.com/katesuncourse</span>
+                </a>
+                <a href="https://www.instagram.com/katesuncourse/" target="_blank" class="social-icon-link" title="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    <span class="print-url">IG: https://www.instagram.com/katesuncourse/</span>
+                </a>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('reportOutput').innerHTML = reportHTML;
+}
+
+// 切換至指定模式列印/另存 PDF，印完後自動恢復
+function printMode(mode) {
+    generateReport(mode);
+    setTimeout(() => {
+        window.print();
+    }, 150);
+}
+
+// 智慧解析與格式化複製內容（自動插入乾淨換行）
+function copyReport() {
+    const reportNode = document.getElementById('reportOutput');
+    if (!reportNode) return;
+
+    let textLines = [];
+
+    // 1. 標題與元數據區塊
+    const headerBox = reportNode.querySelector('.report-header-box');
+    if (headerBox) {
+        const title = headerBox.querySelector('h2');
+        if (title) textLines.push(`【${title.innerText.trim()}】\n`);
+
+        const metas = headerBox.querySelectorAll('.report-meta span');
+        metas.forEach(m => textLines.push(m.innerText.trim()));
+        textLines.push(''); // 空行分隔
+    }
+
+    // 2. 各分類區塊
+    const sections = reportNode.querySelectorAll('.report-section');
+    sections.forEach(sec => {
+        const secTitle = sec.querySelector('.section-title-bar');
+        if (secTitle) {
+            textLines.push(`----------------------------------------`);
+            textLines.push(`📌 ${secTitle.innerText.trim()}`);
+            textLines.push(`----------------------------------------`);
+        }
+
+        const cards = sec.querySelectorAll('.item-card');
+        cards.forEach(card => {
+            const cleanLabel = card.querySelector('.label-clean');
+            const cleanText = card.querySelector('.text-clean');
+            const downloadLabel = card.querySelector('.label-download');
+            const downloadText = card.querySelector('.text-download');
+
+            if (cleanLabel && cleanText) {
+                textLines.push(`${cleanLabel.innerText.trim()}`);
+                textLines.push(`${cleanText.innerText.trim()}`);
+            }
+            if (downloadLabel && downloadText) {
+                textLines.push(`${downloadLabel.innerText.trim()}`);
+                textLines.push(`${downloadText.innerText.trim()}`);
+            }
+            textLines.push(''); // 卡片間空行
+        });
+    });
+
+    // 3. 方法區塊
+    const methodBoxes = reportNode.querySelectorAll('.method-box');
+    methodBoxes.forEach(box => {
+        const boxTitle = box.querySelector('h3');
+        if (boxTitle) {
+            textLines.push(`----------------------------------------`);
+            textLines.push(boxTitle.innerText.trim());
+            textLines.push(`----------------------------------------`);
+        }
+
+        const mSections = box.querySelectorAll('.method-section');
+        mSections.forEach(mSec => {
+            textLines.push(mSec.innerText.trim());
+            textLines.push('');
+        });
+    });
+
+    // 4. 結尾祝福語與社群
+    const footer = reportNode.querySelector('.report-footer-box');
+    if (footer) {
+        textLines.push(`----------------------------------------`);
+        textLines.push(`✨ 願你在每一個當下，都能活出真實的自己，感受到輕而易舉、本自具足。宇宙愛你💖`);
+        textLines.push(`【凱特的社群平台】`);
+        textLines.push(`YouTube: https://www.youtube.com/@katesungoodlife`);
+        textLines.push(`FB: https://www.facebook.com/katesuncourse`);
+        textLines.push(`IG: https://www.instagram.com/katesuncourse/`);
+    }
+
+    const fullText = textLines.join('\n');
+
+    // 使用 Clipboard API 進行高品質複製
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(fullText).then(() => {
+            alert('報告內容已成功複製！已自動帶入完美換行，可直接貼上至 LINE 或記事本。');
+        }).catch(() => {
+            fallbackCopy(fullText);
+        });
+    } else {
+        fallbackCopy(fullText);
+    }
+}
+
+// 備用複製邏輯
+function fallbackCopy(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+        document.execCommand('copy');
+        alert('報告內容已成功複製！已自動帶入完美換行，可直接貼上至 LINE 或記事本。');
+    } catch (err) {
+        alert('複製失敗，請手動複製。');
+    }
+    document.body.removeChild(textArea);
+}
+
+// 初始化執行
+renderCheckboxes();
+</script>
+
+</body>
+</html>
