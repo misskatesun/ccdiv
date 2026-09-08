@@ -659,10 +659,11 @@
                 <button class="btn-main btn-outline btn-outline-clean" onclick="generateReport('clean')">預覽【清理資料】</button>
                 <button class="btn-main btn-clean-bg" onclick="printMode('clean')">📄 下載【清理】PDF</button>
             </div>
-            <div class="btn-grid-2">
+            <div class="btn-grid-2" style="margin-bottom: 8px;">
                 <button class="btn-main btn-outline btn-outline-download" onclick="generateReport('download')">預覽【下載資料】</button>
                 <button class="btn-main btn-download-bg" onclick="printMode('download')">📄 下載【下載】PDF</button>
             </div>
+            <button class="btn-main btn-outline" style="margin-top: 4px;" onclick="generateReport('all')">🔍 預覽【完整報告】</button>
         </div>
     </div>
 </div>
@@ -758,7 +759,7 @@ const optionsData = [
             { id: "les_1", label: "難學以致用（學習格 馬/炮在中間）", clean: "學習上較難學以致用", download: "我學習是輕鬆愉快的" },
             { id: "les_2", label: "主觀質疑、難吸收（學習格 將帥）", clean: "學習時大腦容易以主觀想法質疑老師、教材、難以吸收", download: "我知道如何放下小我、感到順流平靜、全然交托、全然信任宇宙的安排" },
             { id: "love_1", label: "離異或分隔兩地（女生總格 離婚格）", clean: "離婚、分隔兩地", download: "我值得被尊重、我值得和靈魂伴侶白頭偕老、愛情是永恆的" },
-            { id: "love_2", label: "感情中容易受傷（情感格 犯小人/被往上吃）", clean: "情感中容易受傷", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起、我全然地愛自己" },
+            { id: "love_2", label: "感情中容易受傷（情感格 犯小人/被往上吃）", clean: "感情中容易受傷", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起、我全然地愛自己" },
             { id: "biz_1", label: "無貴人、凡事靠自己（事業格 無法往上吃）", clean: "總是要靠自己、較沒有貴人", download: "我值得和志同道合的靈魂家人在一起、我全然地愛自己、人人皆是我的貴人" }
         ]
     },
@@ -919,7 +920,7 @@ function generateReport(mode = 'all') {
                     🌱 到宇宙源頭的白光中對宇宙源頭說：「請為我下載這個資料，謝謝你、我愛你」想像宇宙源頭白光無條件的愛、化身為你想要下載的資料，也想像你有個個人意識資料庫（例如：一顆懸浮在你頭頂的光球），再想像白光資料進入到你的資料庫中。
                 </div>
                 <div class="method-section" style="margin-top: 8px;">
-                    （如何連結宇宙源頭的白光可參考凱特這支影片：https://youtu.be/ydKdGoucbgc ）
+                    （如何連結宇宙源頭的白光可參考凱特這支影片：<a href="https://youtu.be/ydKdGoucbgc" target="_blank" style="color: #1b6341; word-break: break-all;">https://youtu.be/ydKdGoucbgc</a> ）
                 </div>
             </div>
         `;
