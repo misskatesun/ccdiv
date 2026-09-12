@@ -609,6 +609,7 @@
 <body>
 
 <div class="container">
+    <!-- 輸入面板 -->
     <div class="panel">
         <h2>象棋卜卦命盤解讀</h2>
         
@@ -633,11 +634,13 @@
         </div>
 
         <div id="checkboxContainer">
-            </div>
+            <!-- JavaScript 會動態生成勾選項 -->
+        </div>
 
         <button class="btn-main" style="margin-top:20px;" onclick="generateReport('all')">一鍵生成解讀報告</button>
     </div>
 
+    <!-- 輸出與預覽面板 -->
     <div class="panel">
         <div class="report-preview-wrapper">
             <div id="reportOutput" class="report-preview">
@@ -645,6 +648,7 @@
             </div>
         </div>
 
+        <!-- 功能按鈕卡片 1：完整報告操作 -->
         <div class="action-card">
             <div class="action-card-title">📜 完整報告操作</div>
             <div class="btn-grid-2">
@@ -653,6 +657,7 @@
             </div>
         </div>
 
+        <!-- 功能按鈕卡片 2：單獨分類生成與下載 -->
         <div class="action-card">
             <div class="action-card-title">🧹 分類單獨生成與下載</div>
             <div class="btn-grid-2" style="margin-bottom: 8px;">
@@ -672,58 +677,10 @@
 // 設定今天的預設日期
 document.getElementById('interpretDate').valueAsDate = new Date();
 
-// 日期輸入框西元打到 4 位數自動換到月份邏輯
-document.getElementById('clientBirth').addEventListener('keyup', function(e) {
-    const val = this.value;
-    if (val && val.indexOf('-') !== -1) {
-        const parts = val.split('-');
-        if (parts[0] && parts[0].length === 4) {
-            // 自動觸發模擬按下 Tab / 右方向鍵切換輸入焦點
-        }
-    }
-});
-
 // 更新網頁 Title 以利列印或另存 PDF 檔名正確
 function updatePageTitle() {
     const name = document.getElementById('clientName').value.trim() || "個案";
     document.title = `象棋卜卦命盤解讀 _ ${name}`;
-}
-
-// 計算生命靈數邏輯
-function calculateLifePathNumber(birthDateStr) {
-    if (!birthDateStr) return '';
-    
-    // 清除非數字字元
-    const cleanStr = birthDateStr.replace(/\D/g, '');
-    if (cleanStr.length !== 8) return '';
-    
-    // 第一次加總
-    let sum1 = 0;
-    for (let char of cleanStr) {
-        sum1 += parseInt(char, 10);
-    }
-    
-    // 建立中間加總陣列
-    let intermediateSums = [sum1];
-    
-    let currentSum = sum1;
-    while (currentSum >= 10) {
-        let tempSum = 0;
-        let sumStr = currentSum.toString();
-        for (let char of sumStr) {
-            tempSum += parseInt(char, 10);
-        }
-        currentSum = tempSum;
-        intermediateSums.push(currentSum);
-    }
-    
-    // 格式化日期：YYYY.MM.DD
-    const formattedDate = `${cleanStr.substring(0,4)}.${cleanStr.substring(4,6)}.${cleanStr.substring(6,8)}`;
-    
-    // 組合號碼字串
-    const lifePathStr = intermediateSums.join('.');
-    
-    return `${formattedDate}（${lifePathStr}號人）`;
 }
 
 // 資料庫：包含判讀與對應的清理/下載文字
@@ -826,10 +783,7 @@ function generateReport(mode = 'all') {
     updatePageTitle();
     const name = document.getElementById('clientName').value.trim() || "OOO";
     const date = document.getElementById('interpretDate').value || new Date().toISOString().split('T')[0];
-    const birthRaw = document.getElementById('clientBirth').value;
     const reader = document.getElementById('readerName').value.trim() || "凱特";
-    
-    const birthLifePath = calculateLifePathNumber(birthRaw);
 
     let titleText = "象棋卜卦命盤解讀";
     if (mode === 'clean') titleText = "象棋卜卦命盤解讀 _ 推薦療癒清理資料";
@@ -841,7 +795,6 @@ function generateReport(mode = 'all') {
             <div class="report-meta">
                 <span><strong>解讀日期：</strong>${date}</span>
                 <span><strong>個案姓名：</strong>${name}</span>
-                ${birthLifePath ? `<span><strong>出生年月日：</strong>${birthLifePath}</span>` : ''}
                 ${reader ? `<span><strong>解讀者：</strong>${reader}</span>` : ''}
             </div>
         </div>
@@ -899,7 +852,7 @@ function generateReport(mode = 'all') {
                 </div>
                 <div class="method-section">
                     <strong>🧹 宣告一下：</strong><br>
-                    我（們）的本質（都）是沒有任何問題的，只是有些資料、才會演了這個劇情。資料也不是我（們）的，是過去世的祖先或前世，有著類似的傷痛經驗，他們也不是故意的，沒有人是故意的。
+                    我（們）的本質（都）是沒有任何問題的，只是有些資料、才有這樣的劇情。資料也不是我（們）的，是過去世的祖先或前世，有著類似的傷痛經驗，他們也不是故意的，沒有人是故意的。
                 </div>
                 <div class="method-section">
                     <strong>🧹 唸數遍經文、咒，如：</strong><br>
