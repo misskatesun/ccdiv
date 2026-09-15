@@ -85,6 +85,13 @@
             border-color: var(--secondary-color);
         }
 
+        .age-display {
+            font-size: 13px;
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
         .category-header {
             display: flex;
             justify-content: space-between;
@@ -471,7 +478,6 @@
             fill: currentColor;
         }
 
-        /* 專屬列印／PDF 顯示網址樣式 */
         .print-url {
             display: none;
             font-size: 12px;
@@ -479,7 +485,6 @@
             font-weight: normal;
         }
 
-        /* 專屬 PDF 列印極致美化樣式 */
         @media print {
             @page {
                 size: A4;
@@ -625,7 +630,8 @@
         
         <div class="form-group">
             <label for="clientBirth">個案出生年月日：</label>
-            <input type="date" id="clientBirth" value="1990-01-01" max="9999-12-31">
+            <input type="date" id="clientBirth" value="1990-01-01" max="9999-12-31" onchange="calculateAge()">
+            <div id="ageInfo" class="age-display">🎂 實歲年齡：-- 歲</div>
         </div>
 
         <div class="form-group">
@@ -634,7 +640,7 @@
         </div>
 
         <div id="checkboxContainer">
-            <!-- JavaScript 會動態生成勾選項 -->
+            <!-- JavaScript 動態生成 -->
         </div>
 
         <button class="btn-main" style="margin-top:20px;" onclick="generateReport('all')">一鍵生成解讀報告</button>
@@ -648,7 +654,7 @@
             </div>
         </div>
 
-        <!-- 功能按鈕卡片 1：完整報告操作 -->
+        <!-- 功能按鈕卡片 1 -->
         <div class="action-card">
             <div class="action-card-title">📜 完整報告操作</div>
             <div class="btn-grid-2">
@@ -657,7 +663,7 @@
             </div>
         </div>
 
-        <!-- 功能按鈕卡片 2：單獨分類生成與下載 -->
+        <!-- 功能按鈕卡片 2 -->
         <div class="action-card">
             <div class="action-card-title">🧹 分類單獨生成與下載</div>
             <div class="btn-grid-2" style="margin-bottom: 8px;">
@@ -676,6 +682,33 @@
 <script>
 // 設定今天的預設日期
 document.getElementById('interpretDate').valueAsDate = new Date();
+
+// 自動計算年齡（僅於輸入面板顯示）
+function calculateAge() {
+    const birthInput = document.getElementById('clientBirth').value;
+    const ageInfo = document.getElementById('ageInfo');
+    
+    if (!birthInput) {
+        ageInfo.innerText = '🎂 實歲年齡：-- 歲';
+        return;
+    }
+
+    const birthDate = new Date(birthInput);
+    const today = new Date();
+    
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+
+    if (isNaN(age) || age < 0) {
+        ageInfo.innerText = '🎂 實歲年齡：-- 歲';
+    } else {
+        ageInfo.innerText = `🎂 實歲年齡：${age} 歲`;
+    }
+}
 
 // 更新網頁 Title 以利列印或另存 PDF 檔名正確
 function updatePageTitle() {
@@ -778,7 +811,7 @@ function toggleCategory(categoryIndex, selectAll) {
     });
 }
 
-// 生成報告（支援模式：'all' 完整報告 / 'clean' 僅清理 / 'download' 僅下載）
+// 生成報告（完全不包含年齡、生日與生命靈數）
 function generateReport(mode = 'all') {
     updatePageTitle();
     const name = document.getElementById('clientName').value.trim() || "OOO";
@@ -904,7 +937,7 @@ function generateReport(mode = 'all') {
     document.getElementById('reportOutput').innerHTML = reportHTML;
 }
 
-// 切換至指定模式列印/另存 PDF，印完後自動恢復
+// 切換至指定模式列印/另存 PDF
 function printMode(mode) {
     generateReport(mode);
     setTimeout(() => {
@@ -912,14 +945,13 @@ function printMode(mode) {
     }, 150);
 }
 
-// 智慧解析與格式化複製內容（自動插入乾淨換行）
+// 複製內容
 function copyReport() {
     const reportNode = document.getElementById('reportOutput');
     if (!reportNode) return;
 
     let textLines = [];
 
-    // 1. 標題與元數據區塊
     const headerBox = reportNode.querySelector('.report-header-box');
     if (headerBox) {
         const title = headerBox.querySelector('h2');
@@ -927,10 +959,9 @@ function copyReport() {
 
         const metas = headerBox.querySelectorAll('.report-meta span');
         metas.forEach(m => textLines.push(m.innerText.trim()));
-        textLines.push(''); // 空行分隔
+        textLines.push('');
     }
 
-    // 2. 各分類區塊
     const sections = reportNode.querySelectorAll('.report-section');
     sections.forEach(sec => {
         const secTitle = sec.querySelector('.section-title-bar');
@@ -955,11 +986,10 @@ function copyReport() {
                 textLines.push(`${downloadLabel.innerText.trim()}`);
                 textLines.push(`${downloadText.innerText.trim()}`);
             }
-            textLines.push(''); // 卡片間空行
+            textLines.push('');
         });
     });
 
-    // 3. 方法區塊
     const methodBoxes = reportNode.querySelectorAll('.method-box');
     methodBoxes.forEach(box => {
         const boxTitle = box.querySelector('h3');
@@ -976,7 +1006,6 @@ function copyReport() {
         });
     });
 
-    // 4. 結尾祝福語與社群
     const footer = reportNode.querySelector('.report-footer-box');
     if (footer) {
         textLines.push(`----------------------------------------`);
@@ -989,7 +1018,6 @@ function copyReport() {
 
     const fullText = textLines.join('\n');
 
-    // 使用 Clipboard API 進行高品質複製
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(fullText).then(() => {
             alert('報告內容已成功複製！已自動帶入完美換行，可直接貼上至 LINE 或記事本。');
@@ -1001,7 +1029,6 @@ function copyReport() {
     }
 }
 
-// 備用複製邏輯
 function fallbackCopy(text) {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -1018,6 +1045,7 @@ function fallbackCopy(text) {
 
 // 初始化執行
 renderCheckboxes();
+calculateAge();
 </script>
 
 </body>
