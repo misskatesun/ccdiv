@@ -178,7 +178,6 @@
             transform: translateY(-1px);
         }
 
-        /* 整理按鈕區塊樣式 */
         .action-card {
             background: #fdfaf7;
             border: 1px solid #eee1d8;
@@ -209,37 +208,17 @@
             }
         }
 
-        .btn-copy {
-            background-color: var(--secondary-color);
-        }
+        .btn-copy { background-color: var(--secondary-color); }
+        .btn-copy:hover { background-color: #b08759; }
 
-        .btn-copy:hover {
-            background-color: #b08759;
-        }
+        .btn-print { background-color: #537367; }
+        .btn-print:hover { background-color: #425e53; }
 
-        .btn-print {
-            background-color: #537367;
-        }
+        .btn-clean-bg { background-color: #8c5d49; }
+        .btn-clean-bg:hover { background-color: #734837; }
 
-        .btn-print:hover {
-            background-color: #425e53;
-        }
-
-        .btn-clean-bg {
-            background-color: #8c5d49;
-        }
-
-        .btn-clean-bg:hover {
-            background-color: #734837;
-        }
-
-        .btn-download-bg {
-            background-color: #2e6b4d;
-        }
-
-        .btn-download-bg:hover {
-            background-color: #1f4f37;
-        }
+        .btn-download-bg { background-color: #2e6b4d; }
+        .btn-download-bg:hover { background-color: #1f4f37; }
 
         .btn-outline {
             background-color: transparent;
@@ -271,7 +250,6 @@
             background-color: #eaf5ef;
         }
 
-        /* 預覽與 PDF 渲染排版 */
         .report-preview-wrapper {
             background: #fcfaf7;
             padding: 2px;
@@ -614,7 +592,7 @@
 <body>
 
 <div class="container">
-    <!-- 輸入面板 -->
+    <!-- 左側輸入面板 -->
     <div class="panel">
         <h2>象棋卜卦命盤解讀</h2>
         
@@ -640,13 +618,13 @@
         </div>
 
         <div id="checkboxContainer">
-            <!-- JavaScript 動態生成 -->
+            <!-- JavaScript 動態生成選項 -->
         </div>
 
         <button class="btn-main" style="margin-top:20px;" onclick="generateReport('all')">一鍵生成解讀報告</button>
     </div>
 
-    <!-- 輸出與預覽面板 -->
+    <!-- 右側預覽與操作面板 -->
     <div class="panel">
         <div class="report-preview-wrapper">
             <div id="reportOutput" class="report-preview">
@@ -654,7 +632,7 @@
             </div>
         </div>
 
-        <!-- 功能按鈕卡片 1 -->
+        <!-- 完整報告操作 -->
         <div class="action-card">
             <div class="action-card-title">📜 完整報告操作</div>
             <div class="btn-grid-2">
@@ -663,7 +641,7 @@
             </div>
         </div>
 
-        <!-- 功能按鈕卡片 2 -->
+        <!-- 分類獨立下載操作 -->
         <div class="action-card">
             <div class="action-card-title">🧹 分類單獨生成與下載</div>
             <div class="btn-grid-2" style="margin-bottom: 8px;">
@@ -680,10 +658,10 @@
 </div>
 
 <script>
-// 設定今天的預設日期
+// 設定預設解讀日期為今天
 document.getElementById('interpretDate').valueAsDate = new Date();
 
-// 自動計算年齡（僅於輸入面板顯示）
+// 計算年齡（僅於左側表單介面呈現，報告中全面隱藏）
 function calculateAge() {
     const birthInput = document.getElementById('clientBirth').value;
     const ageInfo = document.getElementById('ageInfo');
@@ -710,13 +688,12 @@ function calculateAge() {
     }
 }
 
-// 更新網頁 Title 以利列印或另存 PDF 檔名正確
+// 動態更新網頁 Page Title
 function updatePageTitle() {
     const name = document.getElementById('clientName').value.trim() || "個案";
     document.title = `象棋卜卦命盤解讀 _ ${name}`;
 }
 
-// 資料庫：包含判讀與對應的清理/下載文字
 const optionsData = [
     {
         categoryIndex: 0,
@@ -726,7 +703,8 @@ const optionsData = [
             { id: "mind_2", label: "被動、情緒起伏大（象）", clean: "懶懶被動、情緒起伏大", download: "我知道如何感到積極熱情、順流平靜" },
             { id: "mind_3", label: "意念靜不下來、濫好人（馬）", clean: "意念靜不下來、很想有所作為、濫好人", download: "我是被支持的、順流平靜、接納自己、讓自己如其所是、有界線" },
             { id: "mind_4", label: "恐懼擔憂、急於改變（炮）", clean: "恐懼擔憂、很想有所作為", download: "我是被支持的、我是安全的、我是平安的、順流平靜、接納自己、讓自己如其所是" },
-            { id: "mind_5", label: "思慮過多、自我消耗（兵卒）", clean: "思慮過多、自我消耗", download: "我知道如何感到順流平靜、接納自己、讓自己如其所是" }
+            { id: "mind_5", label: "思慮過多、自我消耗（兵卒）", clean: "思慮過多、自我消耗", download: "我知道如何感到順流平靜、接納自己、讓自己如其所是" },
+            { id: "mind_6", label: "錢留不下來、感到不踏實（缺兵卒）", clean: "錢留不下來、時常感到不踏實", download: "我知道有餘裕的感覺是什麼、我知道如何活在當下、我是安全的" }
         ]
     },
     {
@@ -757,7 +735,7 @@ const optionsData = [
         categoryIndex: 3,
         category: "四、 健康平安資料",
         items: [
-            { id: "hea_1", label: "車關與血光（車關/馬被吃）", clean: "有車關與血光的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" },
+            { id: "hea_1", label: "車關與血光（車關/马被吃）", clean: "有車關與血光的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" },
             { id: "hea_2", label: "氣血循環與頭痛（將帥）", clean: "頭痛、氣血循環困擾", download: "我是健康的、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
             { id: "hea_3", label: "呼吸系統與肺腸（士）", clean: "肺、腸、皮膚、支氣管健康困擾", download: "我是健康的、我能表達我想要的、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
             { id: "hea_4", label: "肝膽與眼睛（車）", clean: "肝膽、眼睛健康困擾", download: "我是健康的、我能看見真相、並心口合一、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
@@ -771,7 +749,6 @@ const optionsData = [
     }
 ];
 
-// 動態繪製勾選項
 function renderCheckboxes() {
     const container = document.getElementById('checkboxContainer');
     let html = '';
@@ -801,7 +778,6 @@ function renderCheckboxes() {
     container.innerHTML = html;
 }
 
-// 切換特定分區全選/取消全選
 function toggleCategory(categoryIndex, selectAll) {
     const category = optionsData[categoryIndex];
     if (!category) return;
@@ -811,7 +787,6 @@ function toggleCategory(categoryIndex, selectAll) {
     });
 }
 
-// 生成報告（完全不包含年齡、生日與生命靈數）
 function generateReport(mode = 'all') {
     updatePageTitle();
     const name = document.getElementById('clientName').value.trim() || "OOO";
@@ -822,6 +797,7 @@ function generateReport(mode = 'all') {
     if (mode === 'clean') titleText = "象棋卜卦命盤解讀 _ 推薦療癒清理資料";
     if (mode === 'download') titleText = "象棋卜卦命盤解讀 _ 推薦下載資料";
 
+    // 嚴格僅包含解讀日期、個案姓名、解讀者，絕不含生日與年齡
     let reportHTML = `
         <div class="report-header-box">
             <h2>${titleText}</h2>
@@ -873,7 +849,6 @@ function generateReport(mode = 'all') {
         }
     });
 
-    // 療癒清理與下載資料方法區塊
     if (mode === 'all' || mode === 'clean') {
         reportHTML += `
             <div class="method-box">
@@ -912,7 +887,6 @@ function generateReport(mode = 'all') {
         `;
     }
 
-    // 結尾祝福語與社群導流
     reportHTML += `
         <div class="report-footer-box">
             願你在每一個當下，都能活出真實的自己，感受到輕而易舉、本自具足。宇宙愛你💖
@@ -937,7 +911,6 @@ function generateReport(mode = 'all') {
     document.getElementById('reportOutput').innerHTML = reportHTML;
 }
 
-// 切換至指定模式列印/另存 PDF
 function printMode(mode) {
     generateReport(mode);
     setTimeout(() => {
@@ -945,7 +918,6 @@ function printMode(mode) {
     }, 150);
 }
 
-// 複製內容
 function copyReport() {
     const reportNode = document.getElementById('reportOutput');
     if (!reportNode) return;
@@ -1020,7 +992,7 @@ function copyReport() {
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(fullText).then(() => {
-            alert('報告內容已成功複製！已自動帶入完美換行，可直接貼上至 LINE 或記事本。');
+            alert('報告內容已成功複製！已自動帶入換行格式，可直接貼上至 LINE。');
         }).catch(() => {
             fallbackCopy(fullText);
         });
@@ -1036,14 +1008,14 @@ function fallbackCopy(text) {
     textArea.select();
     try {
         document.execCommand('copy');
-        alert('報告內容已成功複製！已自動帶入完美換行，可直接貼上至 LINE 或記事本。');
+        alert('報告內容已成功複製！已自動帶入換行格式，可直接貼上至 LINE。');
     } catch (err) {
         alert('複製失敗，請手動複製。');
     }
     document.body.removeChild(textArea);
 }
 
-// 初始化執行
+// 頁面初始化
 renderCheckboxes();
 calculateAge();
 </script>
