@@ -3,493 +3,1069 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>象棋卜卦命盤解讀工具</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title id="pageTitle">象棋卜卦命盤解讀 _ 個案</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap');
-        
+        :root {
+            --primary-color: #7a5c53;
+            --secondary-color: #c49a6c;
+            --bg-color: #faf6f0;
+            --card-bg: #ffffff;
+            --text-color: #3d3531;
+            --clean-bg: #f5eeea;
+            --clean-text: #5c453c;
+            --download-bg: #edf4f0;
+            --download-text: #1d5238;
+            --accent-gold: #b38b32;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Noto Sans TC', sans-serif;
-            background-color: #f8fafc;
-            color: #334155;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
         }
 
-        .serif {
-            font-family: 'Noto Serif TC', serif;
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 25px;
         }
 
-        /* 象棋棋子樣式 */
-        .chess-piece {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 4px 20px rgba(122, 92, 83, 0.08);
+            border: 1px solid #ebdcd0;
+        }
+
+        h1, h2, h3 {
+            color: var(--primary-color);
+            margin-top: 0;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--primary-color);
+        }
+
+        input[type="text"], input[type="date"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #dcd0c7;
+            border-radius: 8px;
+            font-size: 14px;
+            background-color: #fcfaf8;
+            color: var(--text-color);
+            outline: none;
+            transition: border 0.2s;
+        }
+
+        input[type="text"]:focus, input[type="date"]:focus {
+            border-color: var(--secondary-color);
+        }
+
+        .age-display {
+            font-size: 13px;
+            color: var(--secondary-color);
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eee1d8;
+            padding-bottom: 6px;
+            margin-top: 22px;
+            margin-bottom: 12px;
+        }
+
+        .category-title {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 15px;
+        }
+
+        .btn-select-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-mini {
+            background: #f0e4db;
+            color: var(--primary-color);
+            border: 1px solid #d8c4b6;
+            padding: 2px 8px;
+            font-size: 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-mini:hover {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 6px;
+            transition: background 0.15s;
+        }
+
+        .checkbox-item:hover {
+            background: #f7efe9;
+        }
+
+        .checkbox-item input {
+            margin-top: 4px;
+            accent-color: var(--primary-color);
+        }
+
+        .btn-main {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            font-size: 14.5px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            box-shadow: 0 2px 6px rgba(122, 92, 83, 0.15);
+            transition: all 0.2s;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 1.25rem;
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.2s ease;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15), inset 0 2px 2px rgba(255,255,255,0.8), inset 0 -2px 2px rgba(0,0,0,0.2);
-            border: 2px solid #b91c1c;
+            gap: 6px;
         }
 
-        .chess-piece.red {
-            background: radial-gradient(circle, #fef2f2 0%, #fecaca 100%);
-            color: #dc2626;
-            border-color: #dc2626;
+        .btn-main:hover {
+            background-color: #654a42;
+            transform: translateY(-1px);
         }
 
-        .chess-piece.black {
-            background: radial-gradient(circle, #f1f5f9 0%, #cbd5e1 100%);
-            color: #0f172a;
-            border-color: #334155;
+        /* 整理按鈕區塊樣式 */
+        .action-card {
+            background: #fdfaf7;
+            border: 1px solid #eee1d8;
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-top: 15px;
         }
 
-        .chess-piece.selected {
-            transform: scale(1.1);
-            ring: 4px;
-            box-shadow: 0 0 0 3px #3b82f6, 0 4px 6px rgba(0,0,0,0.3);
+        .action-card-title {
+            font-size: 13.5px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .chess-piece.disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-            transform: scale(0.95);
+        .btn-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        @media (max-width: 500px) {
+            .btn-grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .btn-copy {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-copy:hover {
+            background-color: #b08759;
+        }
+
+        .btn-print {
+            background-color: #537367;
+        }
+
+        .btn-print:hover {
+            background-color: #425e53;
+        }
+
+        .btn-clean-bg {
+            background-color: #8c5d49;
+        }
+
+        .btn-clean-bg:hover {
+            background-color: #734837;
+        }
+
+        .btn-download-bg {
+            background-color: #2e6b4d;
+        }
+
+        .btn-download-bg:hover {
+            background-color: #1f4f37;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1.5px solid var(--primary-color);
+            color: var(--primary-color);
             box-shadow: none;
         }
 
-        /* 報告樣式 */
-        .report-card {
-            background: #ffffff;
+        .btn-outline:hover {
+            background-color: #f5eae2;
+            color: var(--primary-color);
+        }
+
+        .btn-outline-clean {
+            border-color: #8c5d49;
+            color: #8c5d49;
+        }
+
+        .btn-outline-clean:hover {
+            background-color: #fcefe9;
+        }
+
+        .btn-outline-download {
+            border-color: #2e6b4d;
+            color: #2e6b4d;
+        }
+
+        .btn-outline-download:hover {
+            background-color: #eaf5ef;
+        }
+
+        /* 預覽與 PDF 渲染排版 */
+        .report-preview-wrapper {
+            background: #fcfaf7;
+            padding: 2px;
             border-radius: 12px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-            padding: 2rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e8dbd0;
+        }
+
+        .report-preview {
+            background: #ffffff;
+            padding: 35px 30px;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.7;
+            color: #333;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+        }
+
+        .report-header-box {
+            text-align: center;
+            border-bottom: 2px solid #e0d0c3;
+            padding-bottom: 18px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .report-header-box::after {
+            content: "";
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--secondary-color);
+            margin: 12px auto 0 auto;
+            border-radius: 2px;
+        }
+
+        .report-header-box h2 {
+            margin: 0 0 8px 0;
+            font-size: 22px;
+            letter-spacing: 2px;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .report-meta {
+            font-size: 13.5px;
+            color: #776860;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px 20px;
+            margin-top: 10px;
+        }
+
+        .report-section {
+            margin-bottom: 24px;
+            page-break-inside: avoid;
+        }
+
+        /* 第五大區塊：療癒清理與下載資料 (列印時強制換頁) */
+        .section-five-wrapper {
+            page-break-before: always;
+            break-before: page;
+            margin-top: 30px;
         }
 
         .section-title-bar {
-            background-color: #8b5cf6;
-            color: white;
-            padding: 8px 16px;
+            font-size: 15px;
             font-weight: 700;
-            font-size: 1.1rem;
+            color: #ffffff;
+            background: linear-gradient(135deg, #7a5c53, #947167);
+            padding: 6px 14px;
             border-radius: 6px;
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
+            margin-bottom: 14px;
+            letter-spacing: 1px;
+            display: inline-block;
         }
 
-        /* 列印樣式控制 */
+        .item-card {
+            background: #fdfbf9;
+            border: 1px solid #f0e4db;
+            border-left: 4px solid var(--secondary-color);
+            border-radius: 8px;
+            padding: 12px 15px;
+            margin-bottom: 12px;
+            page-break-inside: avoid;
+        }
+
+        .label-clean {
+            font-size: 12px;
+            font-weight: 700;
+            color: #8c5d49;
+            background: #f5eae2;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .text-clean {
+            font-size: 14px;
+            color: #4a3c35;
+            padding-left: 4px;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .label-download {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1b6341;
+            background: #e2f0e8;
+            padding: 2px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        .text-download {
+            font-size: 14px;
+            color: #17422d;
+            font-weight: 500;
+            padding-left: 4px;
+            line-height: 1.6;
+        }
+
+        .method-box {
+            background: #fcf8f5;
+            border: 1px dashed #d8c4b6;
+            border-radius: 10px;
+            padding: 18px 20px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            font-size: 13.5px;
+            line-height: 1.7;
+            color: #4a3d37;
+        }
+
+        .method-box h3 {
+            font-size: 16px;
+            color: #7a5c53;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ebdcd0;
+            padding-bottom: 6px;
+        }
+
+        .method-section {
+            margin-bottom: 12px;
+        }
+
+        .method-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .method-section strong {
+            color: #8c5d49;
+        }
+
+        .report-footer-box {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid #ebdcd0;
+            font-size: 16px;
+            font-weight: 700;
+            color: #654a42;
+            letter-spacing: 1px;
+            line-height: 1.8;
+        }
+
+        .social-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            padding-top: 5px;
+            flex-wrap: wrap;
+        }
+
+        .social-icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #f0e4db;
+            color: var(--primary-color);
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .social-icon-link:hover {
+            background: var(--primary-color);
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+
+        .social-icon-link svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        .print-url {
+            display: none;
+            font-size: 12px;
+            color: #555;
+            font-weight: normal;
+        }
+
         @media print {
-            body {
-                background: white;
-                color: black;
+            @page {
+                size: A4;
+                margin: 15mm 12mm;
             }
-            .no-print {
+
+            body {
+                background: white !important;
+                padding: 0 !important;
+                color: #2b231f !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .container {
+                display: block !important;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .panel:first-child, .action-card {
                 display: none !important;
             }
-            .print-only {
-                display: block !important;
+
+            .panel {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+                background: transparent !important;
             }
-            .report-card {
-                box-shadow: none;
-                border: none;
-                padding: 0;
+
+            .report-preview-wrapper {
+                border: none !important;
+                background: transparent !important;
+                padding: 0 !important;
             }
-            .page-break-before {
+
+            .report-preview {
+                padding: 0 !important;
+                box-shadow: none !important;
+            }
+
+            .report-header-box h2 {
+                font-size: 24pt !important;
+                color: #6b4d44 !important;
+            }
+
+            .section-title-bar {
+                background: #6b4d44 !important;
+                color: #ffffff !important;
+                font-size: 12pt !important;
+                padding: 5px 12px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .section-five-wrapper {
                 page-break-before: always !important;
                 break-before: page !important;
+                margin-top: 0 !important;
             }
-            @page {
-                margin: 1.5cm;
+
+            .item-card {
+                background: #faf6f2 !important;
+                border: 1px solid #e6d8ce !important;
+                border-left: 5px solid #b88e5d !important;
+                padding: 10pt 12pt !important;
+                margin-bottom: 10pt !important;
+                page-break-inside: avoid !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .label-clean {
+                background: #eedfd5 !important;
+                color: #734837 !important;
+                font-size: 9.5pt !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .label-download {
+                background: #d9ebd1 !important;
+                color: #174f32 !important;
+                font-size: 9.5pt !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .text-clean, .text-download {
+                font-size: 10.5pt !important;
+            }
+
+            .method-box {
+                background: #fbf8f5 !important;
+                border: 1px dashed #c8b4a6 !important;
+                page-break-inside: avoid !important;
+            }
+
+            .report-footer-box {
+                font-size: 13pt !important;
+                font-weight: bold !important;
+                color: #523b34 !important;
+            }
+
+            a {
+                color: #1b6341 !important;
+                text-decoration: underline !important;
+            }
+
+            .social-links {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 6px !important;
+            }
+
+            .social-icon-link {
+                background: transparent !important;
+                border: none !important;
+                width: auto !important;
+                height: auto !important;
+                border-radius: 0 !important;
+                display: flex !important;
+                gap: 6px !important;
+            }
+
+            .print-url {
+                display: inline-block !important;
             }
         }
     </style>
 </head>
-<body class="min-h-screen pb-12">
+<body>
 
-    <!-- 頂部導覽列 -->
-    <header class="bg-indigo-900 text-white py-4 px-6 shadow-md no-print mb-6">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold serif tracking-wide flex items-center gap-2">
-                <span>☯</span> 象棋卜卦命盤解讀工具
-            </h1>
-            <span class="text-xs bg-indigo-800 text-indigo-200 px-3 py-1 rounded-full border border-indigo-700">專業心靈諮詢版</span>
+<div class="container">
+    <!-- 輸入面板 -->
+    <div class="panel">
+        <h2>象棋卜卦命盤解讀</h2>
+        
+        <div class="form-group">
+            <label for="interpretDate">解讀日期：</label>
+            <input type="date" id="interpretDate">
         </div>
-    </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            <!-- 左側：輸入與選擇面板 (12欄占5欄) -->
-            <div class="lg:col-span-5 space-y-6 no-print">
-                <!-- 個案基本資料 -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h2 class="text-lg font-bold text-slate-800 mb-4 pb-2 border-b border-slate-100 flex items-center gap-2">
-                        <span class="text-indigo-600">👤</span> 個案基本資料
-                    </h2>
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-700 mb-1">個案姓名</label>
-                            <input type="text" id="clientName" placeholder="請輸入姓名" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                        </div>
-                        <div class="grid grid-cols-2 gap-3">
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">出生日期</label>
-                                <input type="date" id="birthDate" onchange="calculateLifePathNumber()" class="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm">
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-1">預設顯示</label>
-                                <div class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-medium text-slate-600" id="ageDisplay">
-                                    實歲：-- 歲
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-3 bg-indigo-50 border border-indigo-100 rounded-lg text-xs text-indigo-800 flex justify-between items-center">
-                            <span>生命靈數 (自動計算)：</span>
-                            <span id="lifePathNum" class="font-bold text-indigo-900 text-sm">--</span>
-                        </div>
-                    </div>
-                </div>
+        <div class="form-group">
+            <label for="clientName">個案姓名：</label>
+            <input type="text" id="clientName" placeholder="請輸入個案姓名" oninput="updatePageTitle()">
+        </div>
+        
+        <div class="form-group">
+            <label for="clientBirth">個案出生年月日：</label>
+            <input type="date" id="clientBirth" value="1990-01-01" max="9999-12-31" onchange="calculateAge()">
+            <div id="ageInfo" class="age-display">🎂 實歲年齡：-- 歲</div>
+        </div>
 
-                <!-- 棋子選擇面板 -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <div class="flex justify-between items-center mb-4 pb-2 border-b border-slate-100">
-                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
-                            <span class="text-indigo-600">🀄</span> 卦象棋子選擇
-                        </h2>
-                        <button onclick="resetChessSelection()" class="text-xs text-slate-500 hover:text-red-600 underline">重置棋局</button>
-                    </div>
+        <div class="form-group">
+            <label for="readerName">解讀者：</label>
+            <input type="text" id="readerName" value="凱特" placeholder="請輸入解讀者姓名">
+        </div>
 
-                    <!-- 選棋提示 -->
-                    <p class="text-xs text-slate-500 mb-3" id="selectionHint">請依次點擊選擇棋子（已選：0/32）</p>
+        <div id="checkboxContainer">
+            <!-- JavaScript 動態生成選項 -->
+        </div>
 
-                    <!-- 紅棋區 -->
-                    <div class="mb-4">
-                        <span class="text-xs font-semibold text-red-600 block mb-2">【紅棋】</span>
-                        <div class="flex flex-wrap gap-2" id="redPiecesContainer"></div>
-                    </div>
+        <button class="btn-main" style="margin-top:20px;" onclick="generateReport('all')">一鍵生成解讀報告</button>
+    </div>
 
-                    <!-- 黑棋區 -->
-                    <div>
-                        <span class="text-xs font-semibold text-slate-700 block mb-2">【黑棋】</span>
-                        <div class="flex flex-wrap gap-2" id="blackPiecesContainer"></div>
-                    </div>
-                </div>
+    <!-- 輸出與預覽面板 -->
+    <div class="panel">
+        <div class="report-preview-wrapper">
+            <div id="reportOutput" class="report-preview">
+                請在左側輸入資料與勾選項目，並點擊「一鍵生成解讀報告」。
+            </div>
+        </div>
 
-                <!-- 選擇之棋子顯示與分類控制 -->
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-                    <h2 class="text-lg font-bold text-slate-800 mb-3 flex items-center gap-2">
-                        <span class="text-indigo-600">📋</span> 已選棋子配置
-                    </h2>
-                    
-                    <div class="space-y-3" id="selectedCategoryList">
-                        <p class="text-sm text-slate-400 italic text-center py-4">請點擊上方棋子進行配置...</p>
-                    </div>
+        <!-- 功能按鈕卡片 1 -->
+        <div class="action-card">
+            <div class="action-card-title">📜 完整報告操作</div>
+            <div class="btn-grid-2">
+                <button class="btn-main btn-copy" onclick="copyReport()">📋 複製內容 (LINE/文字)</button>
+                <button class="btn-main btn-print" onclick="printMode('all')">🖨️ 另存 PDF / 列印</button>
+            </div>
+        </div>
 
-                    <button onclick="generateReport()" class="w-full mt-6 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg shadow-md transition duration-200 flex items-center justify-center gap-2">
-                        <span>✨</span> 產出命盤解讀報告
-                    </button>
+        <!-- 功能按鈕卡片 2 -->
+        <div class="action-card">
+            <div class="action-card-title">🧹 分類單獨生成與下載</div>
+            <div class="btn-grid-2" style="margin-bottom: 8px;">
+                <button class="btn-main btn-outline btn-outline-clean" onclick="generateReport('clean')">預覽【清理資料】</button>
+                <button class="btn-main btn-clean-bg" onclick="printMode('clean')">📄 下載【清理】PDF</button>
+            </div>
+            <div class="btn-grid-2" style="margin-bottom: 8px;">
+                <button class="btn-main btn-outline btn-outline-download" onclick="generateReport('download')">預覽【下載資料】</button>
+                <button class="btn-main btn-download-bg" onclick="printMode('download')">📄 下載【下載】PDF</button>
+            </div>
+            <button class="btn-main btn-outline" style="margin-top: 4px;" onclick="generateReport('all')">🔍 預覽【完整報告】</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// 設定今天的預設日期
+document.getElementById('interpretDate').valueAsDate = new Date();
+
+// 自動計算年齡（僅於輸入面板顯示）
+function calculateAge() {
+    const birthInput = document.getElementById('clientBirth').value;
+    const ageInfo = document.getElementById('ageInfo');
+    
+    if (!birthInput) {
+        ageInfo.innerText = '🎂 實歲年齡：-- 歲';
+        return;
+    }
+
+    const birthDate = new Date(birthInput);
+    const today = new Date();
+    
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+
+    if (isNaN(age) || age < 0) {
+        ageInfo.innerText = '🎂 實歲年齡：-- 歲';
+    } else {
+        ageInfo.innerText = `🎂 實歲年齡：${age} 歲`;
+    }
+}
+
+// 更新網頁 Title 以利列印或另存 PDF 檔名正確
+function updatePageTitle() {
+    const name = document.getElementById('clientName').value.trim() || "個案";
+    document.title = `象棋卜卦命盤解讀 _ ${name}`;
+}
+
+// 資料庫：包含判讀與對應的清理/下載文字
+const optionsData = [
+    {
+        categoryIndex: 0,
+        category: "一、 大腦小我慣性資料",
+        items: [
+            { id: "mind_1", label: "想控制、對人事物有既定想法（將帥士車）", clean: "想控制、對人事物境有既定想法", download: "我知道如何放下小我、感到順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
+            { id: "mind_2", label: "被動、情緒起伏大（象）", clean: "懶懶被動、情緒起伏大", download: "我知道如何感到積極熱情、順流平靜" },
+            { id: "mind_3", label: "意念靜不下來、濫好人（馬）", clean: "意念靜不下來、很想有所作為、濫好人", download: "我是被支持的、順流平靜、接納自己、讓自己如其所是、有界線" },
+            { id: "mind_4", label: "恐懼擔憂、急於改變（炮）", clean: "恐懼擔憂、很想有所作為", download: "我是被支持的、我是安全的、我是平安的、順流平靜、接納自己、讓自己如其所是" },
+            { id: "mind_5", label: "思慮過多、自我消耗（兵卒）", clean: "思慮過多、自我消耗", download: "我知道如何感到順流平靜、接納自己、讓自己如其所是" },
+            { id: "mind_6", label: "錢留不下來、感到不踏實（缺兵卒）", clean: "錢留不下來、時常感到不踏實", download: "我知道有餘裕的感覺是什麼、我知道如何活在當下、我是安全的" }
+        ]
+    },
+    {
+        categoryIndex: 1,
+        category: "二、 運勢資料",
+        items: [
+            { id: "luck_1", label: "阻礙發展（犯小人）", clean: "被人事物境阻礙想要的發展", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人" },
+            { id: "luck_2", label: "辛苦無成（付出大於收穫）", clean: "付出大於收穫、總是要很辛苦", download: "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼" },
+            { id: "luck_3", label: "糾紛與官司（法律官司）", clean: "法律官司、糾紛、名譽受損", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是" },
+            { id: "luck_4", label: "重來與努力白費（通吃/被通吃）", clean: "重新來過、努力白費、總是要很辛苦", download: "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼" },
+            { id: "luck_5", label: "事與願違（全紅全黑/陰陽不協調）", clean: "事與願違", download: "我知道如何感到順流平靜、接納自己、讓自己如其所是、我值得一切的美好" },
+            { id: "luck_6", label: "價值觀不同、格格不入（分離格）", clean: "與人格格不入、價值觀不同、分隔兩地", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起" },
+            { id: "luck_7", label: "十年運破財（被吃較多）", clean: "破財", download: "我是豐盛的源頭、我值得豐盛、我知道有餘裕的感覺是什麼、擁有財富是安全的" }
+        ]
+    },
+    {
+        categoryIndex: 2,
+        category: "三、 學習、情感與事業資料",
+        items: [
+            { id: "les_1", label: "難學以致用（學習格 馬/炮在中間）", clean: "學習上較難學以致用", download: "我學習是輕鬆愉快的" },
+            { id: "les_2", label: "主觀質疑、難吸收（學習格 將帥）", clean: "學習時大腦容易以主觀想法質疑老師、教材、難以吸收", download: "我知道如何放下小我、感到順流平靜、全然交托、全然信任宇宙的安排" },
+            { id: "love_1", label: "離異或分隔兩地（女生總格 離婚格）", clean: "離婚、分隔兩地", download: "我值得被尊重、我值得和靈魂伴侶白頭偕老、愛情是永恆的" },
+            { id: "love_2", label: "感情中容易受傷（情感格 犯小人/被往上吃）", clean: "感情中容易受傷", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起、我全然地愛自己" },
+            { id: "biz_1", label: "無貴人、凡事靠自己（事業格 無法往上吃）", clean: "總是要靠自己、較沒有貴人", download: "我值得和志同道合的靈魂家人在一起、我全然地愛自己、人人皆是我的貴人" }
+        ]
+    },
+    {
+        categoryIndex: 3,
+        category: "四、 健康平安資料",
+        items: [
+            { id: "hea_1", label: "車關與血光（車關/馬被吃）", clean: "有車關與血光的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" },
+            { id: "hea_2", label: "氣血循環與頭痛（將帥）", clean: "頭痛、氣血循環困擾", download: "我是健康的、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
+            { id: "hea_3", label: "呼吸系統與肺腸（士）", clean: "肺、腸、皮膚、支氣管健康困擾", download: "我是健康的、我能表達我想要的、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
+            { id: "hea_4", label: "肝膽與眼睛（車）", clean: "肝膽、眼睛健康困擾", download: "我是健康的、我能看見真相、並心口合一、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
+            { id: "hea_5", label: "心血管與小腸（象）", clean: "心血管、小腸健康困擾", download: "我是健康的、我全然地愛自己、順流平靜、接納自己、讓自己如其所是、我被全然地愛著" },
+            { id: "hea_6", label: "關節筋絡（馬）", clean: "關節筋絡健康困擾", download: "我是健康的、我是被支持的、我是安全的、我是平安的、我的靈魂是永恆的" },
+            { id: "hea_7", label: "腎臟婦科/泌尿系統（炮）", clean: "腎臟、攝護腺/婦科、泌尿系統、骨頭、耳朵健康困擾", download: "我是健康的、我全然愛我自己、我知道如何放鬆、我值得快樂、我是安全的、我被全然地愛著" },
+            { id: "hea_8", label: "脾胃消化系統（兵卒）", clean: "脾胃消化困擾", download: "我是健康的、我信任我自己、我所做的決定都是對的" },
+            { id: "hea_9", label: "突發狀況/血光（被將帥/士威脅）", clean: "突發狀況與血光的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" },
+            { id: "hea_10", label: "生死關能量淨化（生死關）", clean: "離世的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" }
+        ]
+    }
+];
+
+// 動態繪製勾選項
+function renderCheckboxes() {
+    const container = document.getElementById('checkboxContainer');
+    let html = '';
+
+    optionsData.forEach((cat, idx) => {
+        html += `
+            <div class="category-header">
+                <span class="category-title">${cat.category}</span>
+                <div class="btn-select-group">
+                    <button type="button" class="btn-mini" onclick="toggleCategory(${idx}, true)">全選</button>
+                    <button type="button" class="btn-mini" onclick="toggleCategory(${idx}, false)">取消全選</button>
                 </div>
             </div>
+            <div class="checkbox-group">
+        `;
+        cat.items.forEach(item => {
+            html += `
+                <label class="checkbox-item">
+                    <input type="checkbox" id="${item.id}" value="${item.id}">
+                    <span>${item.label}</span>
+                </label>
+            `;
+        });
+        html += `</div>`;
+    });
 
-            <!-- 右側：報告產出區 (12欄占7欄) -->
-            <div class="lg:col-span-7">
-                <!-- 操作按鈕 -->
-                <div class="no-print mb-4 flex justify-end gap-3">
-                    <button onclick="copyReportText()" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-sm font-medium rounded-lg shadow transition flex items-center gap-2">
-                        <span>📋</span> 複製文字內容
-                    </button>
-                    <button onclick="window.print()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium rounded-lg shadow transition flex items-center gap-2">
-                        <span>🖨️</span> 列印 / 儲存 PDF
-                    </button>
-                </div>
+    container.innerHTML = html;
+}
 
-                <!-- 報告主體卡片 -->
-                <div class="report-card" id="reportContent">
-                    <div class="text-center py-12 text-slate-400">
-                        <span class="text-5xl block mb-3">🔮</span>
-                        <p class="text-base">請於左側輸入個案資料並選擇棋子後，點擊「產出命盤解讀報告」</p>
-                    </div>
-                </div>
+// 切換特定分區全選/取消全選
+function toggleCategory(categoryIndex, selectAll) {
+    const category = optionsData[categoryIndex];
+    if (!category) return;
+    category.items.forEach(item => {
+        const cb = document.getElementById(item.id);
+        if (cb) cb.checked = selectAll;
+    });
+}
+
+// 生成報告
+function generateReport(mode = 'all') {
+    updatePageTitle();
+    const name = document.getElementById('clientName').value.trim() || "OOO";
+    const date = document.getElementById('interpretDate').value || new Date().toISOString().split('T')[0];
+    const reader = document.getElementById('readerName').value.trim() || "凱特";
+
+    let titleText = "象棋卜卦命盤解讀";
+    if (mode === 'clean') titleText = "象棋卜卦命盤解讀 _ 推薦療癒清理資料";
+    if (mode === 'download') titleText = "象棋卜卦命盤解讀 _ 推薦下載資料";
+
+    let reportHTML = `
+        <div class="report-header-box">
+            <h2>${titleText}</h2>
+            <div class="report-meta">
+                <span><strong>解讀日期：</strong>${date}</span>
+                <span><strong>個案姓名：</strong>${name}</span>
+                ${reader ? `<span><strong>解讀者：</strong>${reader}</span>` : ''}
             </div>
-
         </div>
-    </main>
+    `;
 
-    <script>
-        // 棋盤總棋子定義 (32顆)
-        const ALL_PIECES = [
-            { id: 'R_帥_1', type: 'red', name: '帥' },
-            { id: 'R_仕_1', type: 'red', name: '仕' }, { id: 'R_仕_2', type: 'red', name: '仕' },
-            { id: 'R_相_1', type: 'red', name: '相' }, { id: 'R_相_2', type: 'red', name: '相' },
-            { id: 'R_俥_1', type: 'red', name: '俥' }, { id: 'R_俥_2', type: 'red', name: '俥' },
-            { id: 'R_傌_1', type: 'red', name: '傌' }, { id: 'R_傌_2', type: 'red', name: '傌' },
-            { id: 'R_炮_1', type: 'red', name: '炮' }, { id: 'R_炮_2', type: 'red', name: '炮' },
-            { id: 'R_兵_1', type: 'red', name: '兵' }, { id: 'R_兵_2', type: 'red', name: '兵' }, { id: 'R_兵_3', type: 'red', name: '兵' }, { id: 'R_兵_4', type: 'red', name: '兵' }, { id: 'R_兵_5', type: 'red', name: '兵' },
-            
-            { id: 'B_將_1', type: 'black', name: '將' },
-            { id: 'B_士_1', type: 'black', name: '士' }, { id: 'B_士_2', type: 'black', name: '士' },
-            { id: 'B_象_1', type: 'black', name: '象' }, { id: 'B_象_2', type: 'black', name: '象' },
-            { id: 'B_車_1', type: 'black', name: '車' }, { id: 'B_車_2', type: 'black', name: '車' },
-            { id: 'B_馬_1', type: 'black', name: '馬' }, { id: 'B_馬_2', type: 'black', name: '馬' },
-            { id: 'B_包_1', type: 'black', name: '包' }, { id: 'B_包_2', type: 'black', name: '包' },
-            { id: 'B_卒_1', type: 'black', name: '卒' }, { id: 'B_卒_2', type: 'black', name: '卒' }, { id: 'B_卒_3', type: 'black', name: '卒' }, { id: 'B_卒_4', type: 'black', name: '卒' }, { id: 'B_卒_5', type: 'black', name: '卒' }
-        ];
+    // 渲染 前四大標題 (一至四) 的勾選項結果
+    optionsData.forEach(cat => {
+        let catItemsHTML = '';
 
-        // 缺棋解讀對照表 (一、大腦小我慣性資料)
-        const MISSING_PIECE_INTERPRETATION = {
-            '帥將': { ego: '自我價值感低落、缺乏自信', clear: '自我價值感低落', download: '我知道我是有價值的、我深深愛著並接納我自己' },
-            '仕士': { ego: '缺乏安全感、時常感到孤立無援', clear: '時常感到孤立無援', download: '我知道宇宙時刻支持著我、我是安全且受保護的' },
-            '相象': { ego: '視野受限、思維容易僵化', clear: '思維僵化與狹隘', download: '我有無窮的智慧與視野，能夠看清事實的全貌' },
-            '俥車': { ego: '行動力受阻、容易感到心累或受挫（車關/馬被吃）', clear: '行動力受阻與挫折感', download: '我知道如何順暢且有力量地向前邁進' },
-            '傌馬': { ego: '變通力不足、面對變化感到焦慮', clear: '面對變化時的焦慮與僵化', download: '我有隨機應變的智慧，彈性適應各種環境' },
-            '炮包': { ego: '情緒表達受阻、容易壓抑或暴躁', clear: '壓抑與不健康的表達方式', download: '我知道如何以愛與平靜的方式表達真實的自己' },
-            '兵卒': { ego: '錢留不下來、感到不踏實（缺兵卒）', clear: '錢留不下來、時常感到不踏實', download: '我知道有餘裕的感覺是什麼、我知道如何活在當下、我是安全的' }
-        };
+        cat.items.forEach(item => {
+            const checkbox = document.getElementById(item.id);
+            if (checkbox && checkbox.checked) {
+                let itemContent = '';
 
-        // 狀態變數
-        let selectedPieces = [];
-
-        // 初始化頁面
-        window.onload = function() {
-            renderPiecePicker();
-        };
-
-        // 計算生命靈數與實歲
-        function calculateLifePathNumber() {
-            const birthInput = document.getElementById('birthDate').value;
-            if (!birthInput) return;
-
-            const birth = new Date(birthInput);
-            const today = new Date();
-            
-            // 計算實歲
-            let age = today.getFullYear() - birth.getFullYear();
-            const m = today.getMonth() - birth.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) {
-                age--;
-            }
-            document.getElementById('ageDisplay').innerText = `實歲：${age} 歲`;
-
-            // 計算生命靈數 (加總到個位數)
-            const dateStr = birthInput.replace(/-/g, '');
-            let sum = 0;
-            for (let char of dateStr) {
-                sum += parseInt(char, 10);
-            }
-            while (sum > 9) {
-                let temp = 0;
-                while (sum > 0) {
-                    temp += sum % 10;
-                    sum = Math.floor(sum / 10);
+                if (mode === 'all' || mode === 'clean') {
+                    itemContent += `
+                        <div><span class="label-clean">【推薦療癒清理的資料】</span></div>
+                        <div class="text-clean">• 體驗的人生劇情：${item.clean}</div>
+                    `;
                 }
-                sum = temp;
-            }
-            document.getElementById('lifePathNum').innerText = sum;
-        }
 
-        // 渲染選擇棋子的按鈕
-        function renderPiecePicker() {
-            const redContainer = document.getElementById('redPiecesContainer');
-            const blackContainer = document.getElementById('blackPiecesContainer');
-            redContainer.innerHTML = '';
-            blackContainer.innerHTML = '';
-
-            ALL_PIECES.forEach(piece => {
-                const btn = document.createElement('div');
-                const isSelected = selectedPieces.some(p => p.id === piece.id);
-                
-                btn.className = `chess-piece ${piece.type} ${isSelected ? 'selected' : ''}`;
-                btn.innerText = piece.name;
-                btn.onclick = () => togglePieceSelection(piece);
-
-                if (piece.type === 'red') {
-                    redContainer.appendChild(btn);
-                } else {
-                    blackContainer.appendChild(btn);
+                if (mode === 'all' || mode === 'download') {
+                    itemContent += `
+                        <div><span class="label-download">【推薦下載的資料】</span></div>
+                        <div class="text-download">✦ ${item.download}</div>
+                    `;
                 }
-            });
 
-            document.getElementById('selectionHint').innerText = `已選取棋子：${selectedPieces.length} / 32 顆`;
-            renderSelectedCategoryList();
-        }
-
-        // 切換棋子選取狀態
-        function togglePieceSelection(piece) {
-            const index = selectedPieces.findIndex(p => p.id === piece.id);
-            if (index > -1) {
-                selectedPieces.splice(index, 1);
-            } else {
-                selectedPieces.push(piece);
-            }
-            renderPiecePicker();
-        }
-
-        // 重置棋局
-        function resetChessSelection() {
-            selectedPieces = [];
-            renderPiecePicker();
-        }
-
-        // 渲染選擇後的分類設定列表
-        function renderSelectedCategoryList() {
-            const container = document.getElementById('selectedCategoryList');
-            if (selectedPieces.length === 0) {
-                container.innerHTML = `<p class="text-sm text-slate-400 italic text-center py-4">請點擊上方棋子進行配置...</p>`;
-                return;
-            }
-
-            let html = '';
-            selectedPieces.forEach((piece, idx) => {
-                const colorClass = piece.type === 'red' ? 'text-red-600 border-red-200 bg-red-50' : 'text-slate-800 border-slate-200 bg-slate-50';
-                html += `
-                    <div class="flex items-center justify-between p-2 border rounded-lg text-sm ${colorClass}">
-                        <div class="flex items-center gap-2">
-                            <span class="font-bold border rounded-full w-6 h-6 flex items-center justify-center bg-white text-xs">${idx + 1}</span>
-                            <span class="font-bold">${piece.type === 'red' ? '紅' : '黑'}${piece.name}</span>
-                        </div>
-                        <button onclick="removePieceByIndex(${idx})" class="text-xs text-slate-400 hover:text-red-500">刪除</button>
+                catItemsHTML += `
+                    <div class="item-card">
+                        ${itemContent}
                     </div>
                 `;
-            });
-            container.innerHTML = html;
-        }
-
-        function removePieceByIndex(idx) {
-            selectedPieces.splice(idx, 1);
-            renderPiecePicker();
-        }
-
-        // 產出命盤解讀報告
-        function generateReport() {
-            const clientName = document.getElementById('clientName').value.trim() || '尊榮個案';
-
-            // 1. 計算缺棋 (32顆中未選中的棋子)
-            const selectedIds = selectedPieces.map(p => p.id);
-            const missingPieces = ALL_PIECES.filter(p => !selectedIds.includes(p.id));
-
-            // 分組統計 missing pieces
-            const missingCounts = {
-                '帥將': missingPieces.filter(p => p.name === '帥' || p.name === '將').length,
-                '仕士': missingPieces.filter(p => p.name === '仕' || p.name === '士').length,
-                '相象': missingPieces.filter(p => p.name === '相' || p.name === '象').length,
-                '俥車': missingPieces.filter(p => p.name === '俥' || p.name === '車').length,
-                '傌馬': missingPieces.filter(p => p.name === '傌' || p.name === '馬').length,
-                '炮包': missingPieces.filter(p => p.name === '炮' || p.name === '包').length,
-                '兵卒': missingPieces.filter(p => p.name === '兵' || p.name === '卒').length
-            };
-
-            // 構建 一、大腦小我慣性資料
-            let section1Content = '';
-            let section5Clearance = [];
-            let section5Downloads = [];
-
-            Object.keys(missingCounts).forEach(key => {
-                if (missingCounts[key] > 0) {
-                    const data = MISSING_PIECE_INTERPRETATION[key];
-                    section1Content += `<li class="mb-1.5"><strong class="text-indigo-900">缺${key} (${missingCounts[key]}顆)：</strong>${data.ego}</li>`;
-                    section5Clearance.push(data.clear);
-                    section5Downloads.push(data.download);
-                }
-            });
-
-            if (!section1Content) {
-                section1Content = `<li class="text-slate-500">全棋俱備，無明顯大腦小我缺棋慣性傾向。</li>`;
             }
+        });
 
-            // 構建 五、療癒清理與下載資料 HTML
-            let section5HTML = `
-                <div class="page-break-before"></div>
-                <div class="section-title-bar">五、 療癒清理與下載資料</div>
-                <div class="space-y-4 text-sm leading-relaxed text-slate-700">
-                    <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
-                        <h4 class="font-bold text-slate-900 mb-2 border-b border-slate-200 pb-1">🧹 能量清理聲明：</h4>
-                        <p class="mb-2">我請求源頭與高我，清除並釋放以下限制性信念、情緒負擔與舊有模式：</p>
-                        <ul class="list-disc pl-5 space-y-1 text-slate-800">
-                            ${section5Clearance.length > 0 
-                                ? section5Clearance.map(c => `<li>清除「${c}」相關的負面信念與深層恐懼。</li>`).join('') 
-                                : '<li>無特定缺棋負面信念，持續保持高頻愛與光。</li>'}
-                        </ul>
-                    </div>
-
-                    <div class="p-4 bg-indigo-50/50 rounded-lg border border-indigo-100">
-                        <h4 class="font-bold text-indigo-950 mb-2 border-b border-indigo-200 pb-1">✨ 高頻信念下載：</h4>
-                        <p class="mb-2">我同意並下載以下高頻信念與神聖感覺至每一個細胞：</p>
-                        <ul class="list-disc pl-5 space-y-1 text-indigo-900 font-medium">
-                            ${section5Downloads.length > 0 
-                                ? section5Downloads.map(d => `<li>${d}。</li>`).join('') 
-                                : '<li>我深深知道如何活出豐盛、平安與和諧的圓滿狀態。</li>'}
-                        </ul>
-                    </div>
+        if (catItemsHTML !== '') {
+            reportHTML += `
+                <div class="report-section">
+                    <div class="section-title-bar">${cat.category}</div>
+                    ${catItemsHTML}
                 </div>
             `;
+        }
+    });
 
-            // 組裝整體報告 HTML（嚴格確保無生日、靈數、年齡）
-            const reportHTML = `
-                <div class="border-b-2 border-slate-800 pb-4 mb-6 text-center">
-                    <h2 class="text-2xl font-bold serif text-slate-900 tracking-wider">象棋卜卦命盤解讀報告</h2>
-                    <p class="text-xs text-slate-500 mt-1">諮詢個案：<span class="font-semibold text-slate-800">${clientName}</span></p>
+    // 渲染 第五大標題：「五、 療癒清理與下載資料」（列印時設定 page-break-before: always 自動跳下一頁）
+    reportHTML += `<div class="report-section section-five-wrapper">`;
+    reportHTML += `<div class="section-title-bar">五、 療癒清理與下載資料</div>`;
+
+    if (mode === 'all' || mode === 'clean') {
+        reportHTML += `
+            <div class="method-box">
+                <h3>【療癒清理資料方法】</h3>
+                <div class="method-section">
+                    <strong>🧹 默唸【零極限】：</strong><br>
+                    <strong>精簡版：</strong>對不起、請原諒我、謝謝你、我愛你<br>
+                    <strong>完整版：</strong>${name} 對不起、請原諒過去的我不明白、才有這樣的資料，XX（對方的名字、如果有他人的話）謝謝你、給我機會清理這個資料，我愛你。
                 </div>
-
-                <!-- 一、大腦小我慣性資料 -->
-                <div class="section-title-bar">一、 大腦小我慣性資料</div>
-                <ul class="list-disc pl-5 text-sm text-slate-700 leading-relaxed mb-6">
-                    ${section1Content}
-                </ul>
-
-                <!-- 二、當前能量流向與挑戰 -->
-                <div class="section-title-bar">二、 當前能量流向與挑戰</div>
-                <div class="p-4 bg-slate-50 rounded-lg text-sm text-slate-700 leading-relaxed mb-6 border border-slate-100">
-                    目前選取之棋子佈局顯示，當前正處於生命課題的整合轉折期。請留意內在與外在環境的互動關係，保持彈性與覺察。
+                <div class="method-section">
+                    <strong>🧹 宣告一下：</strong><br>
+                    我（們）的本質（都）是沒有任何問題的，只是有些資料、才有這樣的劇情。資料也不是我（們）的，是過去世的祖先或前世，有著類似的傷痛經驗，他們也不是故意的，沒有人是故意的。
                 </div>
-
-                <!-- 三、潛在優勢與資源 -->
-                <div class="section-title-bar">三、 潛在優勢與資源</div>
-                <div class="p-4 bg-slate-50 rounded-lg text-sm text-slate-700 leading-relaxed mb-6 border border-slate-100">
-                    您自身具備深層的智慧與內在力量，透過意識的轉化與轉念，能快速將困境轉化為成長的養分。
+                <div class="method-section">
+                    <strong>🧹 唸數遍經文、咒，如：</strong><br>
+                    嗡啊吽、南無阿彌陀佛、南無觀世音菩薩、地藏菩薩摩訶薩、廣大不空摩尼咒、聖經…等
                 </div>
+            </div>
+        `;
+    }
 
-                <!-- 四、行動指引與建議 -->
-                <div class="section-title-bar">四、 行動指引與建議</div>
-                <div class="p-4 bg-slate-50 rounded-lg text-sm text-slate-700 leading-relaxed mb-6 border border-slate-100">
-                    建議近期每日撥出時間進行靜心沉澱，並落實「五、療癒清理與下載資料」的信念宣告，持續維持高頻振動。
+    if (mode === 'all' || mode === 'download') {
+        reportHTML += `
+            <div class="method-box">
+                <h3>【下載資料方法】</h3>
+                <div class="method-section">
+                    🌱 每天唸這些資料給自己聽，讓大腦表意識記得後，漸漸會進入到潛意識、也就是個人意識資料庫中
                 </div>
-
-                <!-- 五、療癒清理與下載資料 (確保寫入與強制換頁) -->
-                ${section5HTML}
-
-                <div class="mt-8 pt-4 border-t border-slate-200 text-center text-xs text-slate-400">
-                    本報告由 象棋卜卦命盤解讀系統 自動生成 · 僅供心靈成長與諮詢參考
+                <div class="method-section">
+                    🌱 到宇宙源頭的白光中對宇宙源頭說：「請為我下載這個資料，謝謝你、我愛你」想像宇宙源頭白光無條件的愛、化身為你想要下載的資料，也想像你有個個人意識資料庫（例如：一顆懸浮在你頭頂的光球），再想像白光資料進入到你的資料庫中。
                 </div>
-            `;
+                <div class="method-section" style="margin-top: 8px;">
+                    （如何連結宇宙源頭的白光可參考凱特這支影片：<a href="https://youtu.be/ydKdGoucbgc" target="_blank" style="color: #1b6341; word-break: break-all;">https://youtu.be/ydKdGoucbgc</a> ）
+                </div>
+            </div>
+        `;
+    }
 
-            document.getElementById('reportContent').innerHTML = reportHTML;
+    reportHTML += `</div>`; // 結束五號區塊
+
+    // 結尾祝福語與社群導流
+    reportHTML += `
+        <div class="report-footer-box">
+            願你在每一個當下，都能活出真實的自己，感受到輕而易舉、本自具足。宇宙愛你💖
+            <div class="social-title">凱特的社群平台</div>
+            <div class="social-links">
+                <a href="https://www.youtube.com/@katesungoodlife" target="_blank" class="social-icon-link" title="YouTube">
+                    <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                    <span class="print-url">YouTube: https://www.youtube.com/@katesungoodlife</span>
+                </a>
+                <a href="https://www.facebook.com/katesuncourse" target="_blank" class="social-icon-link" title="Facebook">
+                    <svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                    <span class="print-url">FB: https://www.facebook.com/katesuncourse</span>
+                </a>
+                <a href="https://www.instagram.com/katesuncourse/" target="_blank" class="social-icon-link" title="Instagram">
+                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                    <span class="print-url">IG: https://www.instagram.com/katesuncourse/</span>
+                </a>
+            </div>
+        </div>
+    `;
+
+    document.getElementById('reportOutput').innerHTML = reportHTML;
+}
+
+// 切換至指定模式列印/另存 PDF
+function printMode(mode) {
+    generateReport(mode);
+    setTimeout(() => {
+        window.print();
+    }, 150);
+}
+
+// 複製內容
+function copyReport() {
+    const reportNode = document.getElementById('reportOutput');
+    if (!reportNode) return;
+
+    let textLines = [];
+
+    const headerBox = reportNode.querySelector('.report-header-box');
+    if (headerBox) {
+        const title = headerBox.querySelector('h2');
+        if (title) textLines.push(`【${title.innerText.trim()}】\n`);
+
+        const metas = headerBox.querySelectorAll('.report-meta span');
+        metas.forEach(m => textLines.push(m.innerText.trim()));
+        textLines.push('');
+    }
+
+    const sections = reportNode.querySelectorAll('.report-section');
+    sections.forEach(sec => {
+        const secTitle = sec.querySelector('.section-title-bar');
+        if (secTitle) {
+            textLines.push(`----------------------------------------`);
+            textLines.push(`📌 ${secTitle.innerText.trim()}`);
+            textLines.push(`----------------------------------------`);
         }
 
-        // 複製純文字內容 (自動排除生日/靈數/年齡)
-        function copyReportText() {
-            const reportEl = document.getElementById('reportContent');
-            if (!reportEl) return;
+        const cards = sec.querySelectorAll('.item-card');
+        cards.forEach(card => {
+            const cleanLabel = card.querySelector('.label-clean');
+            const cleanText = card.querySelector('.text-clean');
+            const downloadLabel = card.querySelector('.label-download');
+            const downloadText = card.querySelector('.text-download');
 
-            const text = reportEl.innerText;
-            if (text.includes("請於左側輸入個案資料")) {
-                alert("請先產出報告後再進行複製！");
-                return;
+            if (cleanLabel && cleanText) {
+                textLines.push(`${cleanLabel.innerText.trim()}`);
+                textLines.push(`${cleanText.innerText.trim()}`);
             }
+            if (downloadLabel && downloadText) {
+                textLines.push(`${downloadLabel.innerText.trim()}`);
+                textLines.push(`${downloadText.innerText.trim()}`);
+            }
+            textLines.push('');
+        });
+    });
 
-            const dummy = document.createElement("textarea");
-            document.body.appendChild(dummy);
-            dummy.value = text;
-            dummy.select();
-            document.execCommand("copy");
-            document.body.removeChild(dummy);
-
-            alert("已成功複製解讀報告文字內容！");
+    const methodBoxes = reportNode.querySelectorAll('.method-box');
+    methodBoxes.forEach(box => {
+        const boxTitle = box.querySelector('h3');
+        if (boxTitle) {
+            textLines.push(boxTitle.innerText.trim());
+            textLines.push(`----------------------------------------`);
         }
-    </script>
+
+        const mSections = box.querySelectorAll('.method-section');
+        mSections.forEach(mSec => {
+            textLines.push(mSec.innerText.trim());
+            textLines.push('');
+        });
+    });
+
+    const footer = reportNode.querySelector('.report-footer-box');
+    if (footer) {
+        textLines.push(`----------------------------------------`);
+        textLines.push(`✨ 願你在每一個當下，都能活出真實的自己，感受到輕而易舉、本自具足。宇宙愛你💖`);
+        textLines.push(`【凱特的社群平台】`);
+        textLines.push(`YouTube: https://www.youtube.com/@katesungoodlife`);
+        textLines.push(`FB: https://www.facebook.com/katesuncourse`);
+        textLines.push(`IG: https://www.instagram.com/katesuncourse/`);
+    }
+
+    const fullText = textLines.join('\n');
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(fullText).then(() => {
+            alert('報告內容已成功複製！已自動帶入完美換行，可直接貼上至 LINE 或記事本。');
+        }).catch(() => {
+            fallbackCopy(fullText);
+        });
+    } else {
+        fallbackCopy(fullText);
+    }
+}
+
+function fallbackCopy(text) {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+        document.execCommand('copy');
+        alert('報告內容已成功複製！已自動帶入完美換行，可直接貼上至 LINE 或記事本。');
+    } catch (err) {
+        alert('複製失敗，請手動複製。');
+    }
+    document.body.removeChild(textArea);
+}
+
+// 初始化執行
+renderCheckboxes();
+calculateAge();
+</script>
+
 </body>
 </html>
