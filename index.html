@@ -132,7 +132,20 @@
         .checkbox-group {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 12px;
+        }
+
+        .checkbox-item-wrapper {
+            background: #fdfaf7;
+            border: 1px solid #f2e6dc;
+            border-radius: 8px;
+            padding: 8px 10px;
+            transition: background 0.15s, border-color 0.15s;
+        }
+
+        .checkbox-item-wrapper:hover {
+            background: #f7efe9;
+            border-color: #e3d2c4;
         }
 
         .checkbox-item {
@@ -140,19 +153,41 @@
             align-items: flex-start;
             gap: 10px;
             font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
-            padding: 4px 6px;
-            border-radius: 6px;
-            transition: background 0.15s;
-        }
-
-        .checkbox-item:hover {
-            background: #f7efe9;
+            color: var(--primary-color);
         }
 
         .checkbox-item input {
             margin-top: 4px;
             accent-color: var(--primary-color);
+        }
+
+        /* 標籤 (Tags) 勾選列樣式 */
+        .scope-tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+            margin-top: 6px;
+            margin-left: 24px;
+            padding-top: 4px;
+            border-top: 1px dashed #eeded2;
+        }
+
+        .scope-tag-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: normal;
+            color: #66544d;
+            cursor: pointer;
+        }
+
+        .scope-tag-label input {
+            accent-color: var(--secondary-color);
+            width: 13px;
+            height: 13px;
         }
 
         .btn-main {
@@ -357,7 +392,40 @@
             padding: 12px 15px;
             margin-bottom: 12px;
             page-break-inside: avoid;
+            position: relative;
         }
+
+        .item-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 6px;
+        }
+
+        .tags-badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        /* 莫蘭迪風格標籤樣式 */
+        .tag-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
+            border-radius: 12px;
+            letter-spacing: 0.5px;
+            line-height: 1.3;
+            display: inline-block;
+        }
+
+        .tag-badge-一生 { background-color: #8c6a5e; color: #ffffff; }
+        .tag-badge-年運 { background-color: #b87d4b; color: #ffffff; }
+        .tag-badge-學習 { background-color: #587989; color: #ffffff; }
+        .tag-badge-人際關係 { background-color: #83677b; color: #ffffff; }
+        .tag-badge-事業 { background-color: #4a7c59; color: #ffffff; }
 
         .label-clean {
             font-size: 12px;
@@ -565,6 +633,11 @@
                 print-color-adjust: exact !important;
             }
 
+            .tag-badge {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
             .label-clean {
                 background: #eedfd5 !important;
                 color: #734837 !important;
@@ -625,7 +698,6 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <!-- 輸入面板 -->
     <div class="panel">
@@ -729,16 +801,20 @@ function updatePageTitle() {
     document.title = `象棋卜卦命盤解讀 _ ${name}`;
 }
 
+// 標籤選項目錄
+const scopeTagOptions = ["一生", "年運", "學習", "人際關係", "事業"];
+
 // 資料庫：包含判讀與對應的清理/下載文字
 const optionsData = [
     {
         categoryIndex: 0,
         category: "一、 大腦小我慣性資料",
+        hasScopeTags: true,
         items: [
             { id: "mind_1", label: "想控制、對人事物有既定想法（將帥士車）", clean: "想控制、對人事物境有既定想法", download: "我知道如何放下小我、感到順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
             { id: "mind_2", label: "被動、情緒起伏大（象）", clean: "懶懶被動、情緒起伏大", download: "我知道如何感到積極熱情、順流平靜" },
             { id: "mind_3", label: "意念靜不下來、濫好人（馬）", clean: "意念靜不下來、很想有所作為、濫好人", download: "我是被支持的、順流平靜、接納自己、讓自己如其所是、有界線" },
-            { id: "mind_4", label: "恐懼擔憂、急於改變（炮）", clean: "恐懼擔憂、很想有所作為", download: "我是被支持的、我是安全的、我是平安的、順流平靜、接納自己、讓自己如其所是" },
+            { id: "mind_4", label: "恐懼擔擔憂、急於改變（炮）", clean: "恐懼擔憂、很想有所作為", download: "我是被支持的、我是安全的、我是平安的、順流平靜、接納自己、讓自己如其所是" },
             { id: "mind_5", label: "思慮過多、自我消耗（兵卒）", clean: "思慮過多、自我消耗", download: "我知道如何感到順流平靜、接納自己、讓自己如其所是" },
             { id: "mind_6", label: "錢留不下來、感到不踏實（缺兵卒）", clean: "錢留不下來、時常感到不踏實", download: "我知道有餘裕的感覺是什麼、我知道如何活在當下、我是安全的" }
         ]
@@ -746,6 +822,7 @@ const optionsData = [
     {
         categoryIndex: 1,
         category: "二、 運勢資料",
+        hasScopeTags: true,
         items: [
             { id: "luck_1", label: "阻礙發展（犯小人）", clean: "被人事物境阻礙想要的發展", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人" },
             { id: "luck_2", label: "辛苦無成（付出大於收穫）", clean: "付出大於收穫、總是要很辛苦", download: "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼" },
@@ -761,17 +838,19 @@ const optionsData = [
     {
         categoryIndex: 2,
         category: "三、 學習、情感與事業資料",
+        hasScopeTags: false,
         items: [
             { id: "les_1", label: "難學以致用（學習格 馬/炮在中間）", clean: "學習上較難學以致用", download: "我學習是輕鬆愉快的" },
             { id: "les_2", label: "主觀質疑、難吸收（學習格 將帥）", clean: "學習時大腦容易以主觀想法質疑老師、教材、難以吸收", download: "我知道如何放下小我、感到順流平靜、全然交托、全然信任宇宙的安排" },
-            { id: "love_1", label: "離異或分隔兩地（女生總格 離婚格）", clean: "離婚、分隔兩地", download: "我值得被尊重、我值得和靈魂伴侶白頭偕老、愛情是永恆的" },
+            { id: "love_1", label: "離異或分隔兩地（女生總格 離婚格）", clean: "離婚或分隔兩地", download: "我值得被尊重、我值得和靈魂伴侶白頭偕老、愛情是永恆的" },
             { id: "love_2", label: "感情中容易受傷（情感格 犯小人/被往上吃）", clean: "感情中容易受傷", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起、我全然地愛自己" },
-            { id: "biz_1", label: "無貴人、凡事靠自己（事業格 無法往上吃）", clean: "總是要靠自己、較沒有貴人", download: "我值得和志同道合的靈魂家人在一起、我全然地愛自己、人人皆是我的貴人" }
+            { id: "biz_1", label: "無貴人、凡事靠自己（事業格 無法往上吃）", clean: "事業上總是要靠自己、較沒有貴人", download: "我值得和志同道合的靈魂家人在一起、我全然地愛自己、人人皆是我的貴人" }
         ]
     },
     {
         categoryIndex: 3,
         category: "四、 健康平安資料",
+        hasScopeTags: false,
         items: [
             { id: "hea_1", label: "車關與血光（車關/馬被吃）", clean: "有車關與血光的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" },
             { id: "hea_2", label: "氣血循環與頭痛（將帥）", clean: "頭痛、氣血循環困擾", download: "我是健康的、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
@@ -787,7 +866,6 @@ const optionsData = [
     }
 ];
 
-// 動態繪製勾選項
 function renderCheckboxes() {
     const container = document.getElementById('checkboxContainer');
     let html = '';
@@ -804,11 +882,28 @@ function renderCheckboxes() {
             <div class="checkbox-group">
         `;
         cat.items.forEach(item => {
+            let scopeTagsHtml = '';
+            if (cat.hasScopeTags) {
+                scopeTagsHtml += `<div class="scope-tags-container">`;
+                scopeTagOptions.forEach(tag => {
+                    scopeTagsHtml += `
+                        <label class="scope-tag-label">
+                            <input type="checkbox" id="${item.id}_tag_${tag}" value="${tag}">
+                            <span>${tag}</span>
+                        </label>
+                    `;
+                });
+                scopeTagsHtml += `</div>`;
+            }
+
             html += `
-                <label class="checkbox-item">
-                    <input type="checkbox" id="${item.id}" value="${item.id}">
-                    <span>${item.label}</span>
-                </label>
+                <div class="checkbox-item-wrapper">
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="${item.id}" value="${item.id}">
+                        <span>${item.label}</span>
+                    </label>
+                    ${scopeTagsHtml}
+                </div>
             `;
         });
         html += `</div>`;
@@ -827,7 +922,6 @@ function toggleCategory(categoryIndex, selectAll) {
     });
 }
 
-// 生成報告
 function generateReport(mode = 'all') {
     updatePageTitle();
     const name = document.getElementById('clientName').value.trim() || "OOO";
@@ -858,6 +952,25 @@ function generateReport(mode = 'all') {
             if (checkbox && checkbox.checked) {
                 let itemContent = '';
 
+                // 檢查是否有勾選標籤 (一生、年運、學習、人際關係、事業)
+                let selectedTags = [];
+                if (cat.hasScopeTags) {
+                    scopeTagOptions.forEach(tag => {
+                        const tagCb = document.getElementById(`${item.id}_tag_${tag}`);
+                        if (tagCb && tagCb.checked) {
+                            selectedTags.push(tag);
+                        }
+                    });
+                }
+
+                // 建立標籤 Badge HTML
+                let tagsBadgeHtml = '';
+                if (selectedTags.length > 0) {
+                    tagsBadgeHtml = `<div class="tags-badge-container">` + 
+                        selectedTags.map(t => `<span class="tag-badge tag-badge-${t}">${t}</span>`).join('') + 
+                        `</div>`;
+                }
+
                 if (mode === 'all' || mode === 'clean') {
                     itemContent += `
                         <div><span class="label-clean">【推薦療癒清理的資料】</span></div>
@@ -873,7 +986,8 @@ function generateReport(mode = 'all') {
                 }
 
                 catItemsHTML += `
-                    <div class="item-card">
+                    <div class="item-card" data-tags="${selectedTags.join(',')}">
+                        ${tagsBadgeHtml ? `<div class="item-card-header">${tagsBadgeHtml}</div>` : ''}
                         ${itemContent}
                     </div>
                 `;
@@ -967,7 +1081,6 @@ function printMode(mode) {
     }, 150);
 }
 
-// 複製內容
 function copyReport() {
     const reportNode = document.getElementById('reportOutput');
     if (!reportNode) return;
@@ -995,17 +1108,26 @@ function copyReport() {
 
         const cards = sec.querySelectorAll('.item-card');
         cards.forEach(card => {
+            const rawTags = card.getAttribute('data-tags');
+            let tagsText = '';
+            if (rawTags) {
+                const tagArray = rawTags.split(',').filter(Boolean);
+                if (tagArray.length > 0) {
+                    tagsText = tagArray.map(t => `[${t}]`).join('');
+                }
+            }
+
             const cleanLabel = card.querySelector('.label-clean');
             const cleanText = card.querySelector('.text-clean');
             const downloadLabel = card.querySelector('.label-download');
             const downloadText = card.querySelector('.text-download');
 
             if (cleanLabel && cleanText) {
-                textLines.push(`${cleanLabel.innerText.trim()}`);
+                textLines.push(`${cleanLabel.innerText.trim()} ${tagsText}`);
                 textLines.push(`${cleanText.innerText.trim()}`);
             }
             if (downloadLabel && downloadText) {
-                textLines.push(`${downloadLabel.innerText.trim()}`);
+                textLines.push(`${downloadLabel.innerText.trim()} ${tagsText && !cleanLabel ? tagsText : ''}`);
                 textLines.push(`${downloadText.innerText.trim()}`);
             }
             textLines.push('');
