@@ -6,751 +6,135 @@
     <title id="pageTitle">象棋卜卦命盤解讀 _ 個案</title>
     <style>
         :root {
-            --primary-color: #7a5c53;
-            --secondary-color: #c49a6c;
-            --bg-color: #faf6f0;
-            --card-bg: #ffffff;
-            --text-color: #3d3531;
-            --clean-bg: #f5eeea;
-            --clean-text: #5c453c;
-            --download-bg: #edf4f0;
-            --download-text: #1d5238;
-            --accent-gold: #b38b32;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 1050px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 1.1fr;
-            gap: 25px;
-        }
-
-        @media (max-width: 900px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .panel {
-            background: var(--card-bg);
-            padding: 25px;
-            border-radius: 14px;
-            box-shadow: 0 4px 20px rgba(122, 92, 83, 0.08);
-            border: 1px solid #ebdcd0;
-        }
-
-        h1, h2, h3 {
-            color: var(--primary-color);
-            margin-top: 0;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: var(--primary-color);
-        }
-
-        input[type="text"], input[type="date"] {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #dcd0c7;
-            border-radius: 8px;
-            font-size: 14px;
-            background-color: #fcfaf8;
-            color: var(--text-color);
-            outline: none;
-            transition: border 0.2s;
-        }
-
-        input[type="text"]:focus, input[type="date"]:focus {
-            border-color: var(--secondary-color);
-        }
-
-        .age-display {
-            font-size: 13px;
-            color: var(--secondary-color);
-            font-weight: 600;
-            margin-top: 4px;
-        }
-
-        .category-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #eee1d8;
-            padding-bottom: 6px;
-            margin-top: 22px;
-            margin-bottom: 12px;
-        }
-
-        .category-title {
-            font-weight: 700;
-            color: var(--primary-color);
-            font-size: 15px;
-        }
-
-        .btn-select-group {
-            display: flex;
-            gap: 6px;
-        }
-
-        .btn-mini {
-            background: #f0e4db;
-            color: var(--primary-color);
-            border: 1px solid #d8c4b6;
-            padding: 2px 8px;
-            font-size: 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .btn-mini:hover {
-            background: var(--secondary-color);
-            color: white;
-        }
-
-        .checkbox-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .checkbox-item-wrapper {
-            padding: 6px 8px;
-            border-radius: 6px;
-            background: #fdfaf7;
-            border: 1px solid #f2e6dd;
-        }
-
-        .checkbox-item-wrapper:hover {
-            background: #f7efe9;
-        }
-
-        .checkbox-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .checkbox-item input {
-            margin-top: 4px;
-            accent-color: var(--primary-color);
-        }
-
-        .scope-checkboxes {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px 12px;
-            margin-top: 6px;
-            padding-left: 28px;
-        }
-
-        .scope-label {
-            font-size: 12.5px;
-            color: #6b584f;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            cursor: pointer;
-            font-weight: normal;
-            margin-bottom: 0;
-        }
-
-        .scope-label input {
-            accent-color: var(--secondary-color);
-        }
-
-        .btn-main {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 12px 16px;
-            font-size: 14.5px;
-            font-weight: 600;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 2px 6px rgba(122, 92, 83, 0.15);
-            transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
-        .btn-main:hover {
-            background-color: #654a42;
-            transform: translateY(-1px);
-        }
-
-        /* 整理按鈕區塊樣式 */
-        .action-card {
-            background: #fdfaf7;
-            border: 1px solid #eee1d8;
-            border-radius: 10px;
-            padding: 14px 16px;
-            margin-top: 15px;
-        }
-
-        .action-card-title {
-            font-size: 13.5px;
-            font-weight: 700;
-            color: var(--primary-color);
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .btn-grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        @media (max-width: 500px) {
-            .btn-grid-2 {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .btn-copy {
-            background-color: var(--secondary-color);
-        }
-
-        .btn-copy:hover {
-            background-color: #b08759;
-        }
-
-        .btn-print {
-            background-color: #537367;
-        }
-
-        .btn-print:hover {
-            background-color: #425e53;
-        }
-
-        .btn-clean-bg {
-            background-color: #8c5d49;
-        }
-
-        .btn-clean-bg:hover {
-            background-color: #734837;
-        }
-
-        .btn-download-bg {
-            background-color: #2e6b4d;
-        }
-
-        .btn-download-bg:hover {
-            background-color: #1f4f37;
-        }
-
-        .btn-outline {
-            background-color: transparent;
-            border: 1.5px solid var(--primary-color);
-            color: var(--primary-color);
-            box-shadow: none;
-        }
-
-        .btn-outline:hover {
-            background-color: #f5eae2;
-            color: var(--primary-color);
-        }
-
-        .btn-outline-clean {
-            border-color: #8c5d49;
-            color: #8c5d49;
-        }
-
-        .btn-outline-clean:hover {
-            background-color: #fcefe9;
-        }
-
-        .btn-outline-download {
-            border-color: #2e6b4d;
-            color: #2e6b4d;
-        }
-
-        .btn-outline-download:hover {
-            background-color: #eaf5ef;
-        }
-
-        /* 預覽與 PDF 渲染排版 */
-        .report-preview-wrapper {
-            background: #fcfaf7;
-            padding: 2px;
-            border-radius: 12px;
-            border: 1px solid #e8dbd0;
-        }
-
-        .report-preview {
-            background: #ffffff;
-            padding: 35px 30px;
-            border-radius: 10px;
-            font-size: 14px;
-            line-height: 1.7;
-            color: #333;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
-        }
-
-        /* 刪除下劃線與底欄線條 */
-        .report-header-box {
-            text-align: center;
-            border-bottom: none;
-            padding-bottom: 6px;
-            margin-bottom: 16px;
-            position: relative;
-        }
-
-        .report-header-box h2 {
-            margin: 0 0 6px 0;
-            font-size: 22px;
-            letter-spacing: 2px;
-            color: var(--primary-color);
-            font-weight: 700;
-        }
-
-        .report-meta {
-            font-size: 13.5px;
-            color: #776860;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px 20px;
-            margin-top: 6px;
-        }
-
-        .report-section {
-            margin-bottom: 16px;
-            break-inside: avoid-page;
-        }
-
-        .section-five-wrapper {
-            margin-top: 15px;
-        }
-
-        .section-title-bar {
-            font-size: 15px;
-            font-weight: 700;
-            color: #ffffff;
-            background: linear-gradient(135deg, #7a5c53, #947167);
-            padding: 6px 14px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-            display: inline-block;
-            break-after: avoid;
-            page-break-after: avoid;
-        }
-
-        .item-card {
-            background: #fdfbf9;
-            border: 1px solid #f0e4db;
-            border-left: 4px solid var(--secondary-color);
-            border-radius: 8px;
-            padding: 12px 15px;
-            margin-bottom: 12px;
-            break-inside: avoid;
-            page-break-inside: avoid;
-            position: relative;
-        }
-
-        .badge-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 5px;
-            margin-bottom: 8px;
-        }
-
-        .badge-item {
-            font-size: 13px;
-            font-weight: 400;
-            padding: 3px 10px;
-            border-radius: 12px;
-            line-height: 1.4;
-            display: inline-block;
-            border: 1px solid transparent;
-            letter-spacing: 0.5px;
-        }
-
-        .badge-一生 { background-color: #f0f3f8; color: #2b4c7e; border-color: #d2deed; }
-        .badge-年運 { background-color: #fbf0f0; color: #923838; border-color: #f3d1d1; }
-        .badge-學習 { background-color: #edf7f2; color: #1e6b42; border-color: #c9e8d7; }
-        .badge-人際關係 { background-color: #f7edf8; color: #7b2c83; border-color: #e8cbe9; }
-        .badge-事業 { background-color: #fcf6e8; color: #8c6211; border-color: #f5e2b8; }
-
-        .label-clean {
-            font-size: 12.5px;
-            font-weight: 700;
-            color: #8c5d49;
-            background: #f5eae2;
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 4px;
-            letter-spacing: 0.5px;
-        }
-
-        .text-clean {
-            font-size: 14px;
-            color: #4a3c35;
-            padding-left: 4px;
-            margin-bottom: 10px;
-            line-height: 1.6;
-        }
-
-        .label-download {
-            font-size: 12.5px;
-            font-weight: 700;
-            color: #1b6341;
-            background: #e2f0e8;
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-bottom: 4px;
-            letter-spacing: 0.5px;
-        }
-
-        .text-download {
-            font-size: 14px;
-            color: #17422d;
-            font-weight: 500;
-            padding-left: 4px;
-            line-height: 1.6;
-        }
-
-        .method-box {
-            background: #fcf8f5;
-            border: 1px dashed #d8c4b6;
-            border-radius: 10px;
-            padding: 14px 16px;
-            margin-top: 12px;
-            margin-bottom: 12px;
-            font-size: 13.5px;
-            line-height: 1.6;
-            color: #4a3d37;
-            break-inside: avoid;
-            page-break-inside: avoid;
-        }
-
-        .method-box h3 {
-            font-size: 15px;
-            color: #7a5c53;
-            margin-bottom: 8px;
-            border-bottom: 1px solid #ebdcd0;
-            padding-bottom: 4px;
-        }
-
-        .method-section {
-            margin-bottom: 10px;
-        }
-
-        .method-section:last-child {
-            margin-bottom: 0;
-        }
-
-        .method-section strong {
-            color: #8c5d49;
-        }
-
-        /* 縮短頁尾高度與刪除頂線 */
-        .report-footer-box {
-            text-align: center;
-            margin-top: 12px;
-            padding-top: 8px;
-            border-top: none;
-            font-size: 14px;
-            font-weight: 700;
-            color: #654a42;
-            letter-spacing: 0.5px;
-            line-height: 1.5;
-            break-inside: avoid;
-            page-break-inside: avoid;
-        }
-
-        .social-title {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-top: 8px;
-            margin-bottom: 4px;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-            padding-top: 2px;
-            flex-wrap: wrap;
-        }
-
-        .social-icon-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            background: #f0e4db;
-            color: var(--primary-color);
-            transition: all 0.2s ease;
-            text-decoration: none;
-        }
-
-        .social-icon-link:hover {
-            background: var(--primary-color);
-            color: #ffffff;
-            transform: translateY(-2px);
-        }
-
-        .social-icon-link svg {
-            width: 18px;
-            height: 18px;
-            fill: currentColor;
-        }
-
-        .print-url {
-            display: none;
-            font-size: 11px;
-            color: #555;
-            font-weight: normal;
-        }
+            --primary: #7a5c53; --secondary: #c49a6c; --bg: #faf6f0;
+            --card-bg: #fff; --text: #3d3531; --clean-btn: #8c5d49; --download-btn: #2e6b4d;
+        }
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, "Noto Sans TC", sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 20px; line-height: 1.6; }
+        .container { max-width: 1050px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.1fr; gap: 25px; }
+        @media (max-width: 900px) { .container { grid-template-columns: 1fr; } }
+        .panel { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 20px rgba(122,92,83,.08); border: 1px solid #ebdcd0; }
+        h1, h2, h3 { color: var(--primary); margin-top: 0; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: 600; margin-bottom: 6px; color: var(--primary); }
+        input[type="text"], input[type="date"] { width: 100%; padding: 10px 12px; border: 1px solid #dcd0c7; border-radius: 8px; font-size: 14px; background: #fcfaf8; color: var(--text); outline: 0; }
+        input:focus { border-color: var(--secondary); }
+        .age-display { font-size: 13px; color: var(--secondary); font-weight: 600; margin-top: 4px; }
+        .category-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee1d8; padding-bottom: 6px; margin: 22px 0 12px; }
+        .category-title { font-weight: 700; color: var(--primary); font-size: 15px; }
+        .btn-select-group { display: flex; gap: 6px; }
+        .btn-mini { background: #f0e4db; color: var(--primary); border: 1px solid #d8c4b6; padding: 2px 8px; font-size: 12px; border-radius: 4px; cursor: pointer; transition: .2s; }
+        .btn-mini:hover { background: var(--secondary); color: #fff; }
+        .checkbox-group { display: flex; flex-direction: column; gap: 12px; }
+        .checkbox-item-wrapper { padding: 6px 8px; border-radius: 6px; background: #fdfaf7; border: 1px solid #f2e6dd; }
+        .checkbox-item-wrapper:hover { background: #f7efe9; }
+        .checkbox-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; cursor: pointer; }
+        .checkbox-item input { margin-top: 4px; accent-color: var(--primary); }
+        .scope-checkboxes { display: flex; flex-wrap: wrap; gap: 8px 12px; margin-top: 6px; padding-left: 28px; }
+        .scope-label { font-size: 12.5px; color: #6b584f; display: inline-flex; align-items: center; gap: 4px; cursor: pointer; margin: 0; }
+        .scope-label input { accent-color: var(--secondary); }
+        
+        .btn-main { background: var(--primary); color: #fff; border: none; padding: 12px 16px; font-size: 14.5px; font-weight: 600; border-radius: 8px; cursor: pointer; width: 100%; box-shadow: 0 2px 6px rgba(122,92,83,.15); transition: .2s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+        .btn-main:hover { background: #654a42; transform: translateY(-1px); }
+        .action-card { background: #fdfaf7; border: 1px solid #eee1d8; border-radius: 10px; padding: 14px 16px; margin-top: 15px; }
+        .action-card-title { font-size: 13.5px; font-weight: 700; color: var(--primary); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
+        .btn-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 500px) { .btn-grid-2 { grid-template-columns: 1fr; } }
+        
+        .btn-copy { background: var(--secondary); } .btn-copy:hover { background: #b08759; }
+        .btn-print { background: #537367; } .btn-print:hover { background: #425e53; }
+        .btn-clean-bg { background: var(--clean-btn); } .btn-clean-bg:hover { background: #734837; }
+        .btn-download-bg { background: var(--download-btn); } .btn-download-bg:hover { background: #1f4f37; }
+        
+        .btn-outline { background: transparent; border: 1.5px solid var(--primary); color: var(--primary); box-shadow: none; }
+        .btn-outline:hover { background: #f5eae2; color: var(--primary); }
+        .btn-outline-clean { border-color: var(--clean-btn); color: var(--clean-btn); } .btn-outline-clean:hover { background: #fcefe9; }
+        .btn-outline-download { border-color: var(--download-btn); color: var(--download-btn); } .btn-outline-download:hover { background: #eaf5ef; }
+
+        .report-preview-wrapper { background: #fcfaf7; padding: 2px; border-radius: 12px; border: 1px solid #e8dbd0; }
+        .report-preview { background: #fff; padding: 35px 30px; border-radius: 10px; font-size: 14px; line-height: 1.7; color: #333; box-shadow: 0 2px 12px rgba(0,0,0,.03); }
+        .report-header-box { text-align: center; padding-bottom: 10px; margin-bottom: 15px; }
+        .report-header-box h2 { margin: 0 0 6px; font-size: 22px; letter-spacing: 2px; color: var(--primary); font-weight: 700; }
+        .report-meta { font-size: 13.5px; color: #776860; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px 20px; margin-top: 6px; }
+        .report-section { margin-bottom: 16px; }
+        .section-five-wrapper { page-break-before: auto; margin-top: 20px; }
+        .section-header-block, .first-page-header-block { break-inside: avoid; page-break-inside: avoid; }
+        .section-title-bar { font-size: 15px; font-weight: 700; color: #fff; background: linear-gradient(135deg, #7a5c53, #947167); padding: 6px 14px; border-radius: 6px; margin-bottom: 10px; letter-spacing: 1px; display: inline-block; break-after: avoid; page-break-after: avoid; }
+        .item-card { background: #fdfbf9; border: 1px solid #f0e4db; border-left: 4px solid var(--secondary); border-radius: 8px; padding: 12px 15px; margin-bottom: 10px; break-inside: avoid; page-break-inside: avoid; }
+        
+        .badge-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 5px 0 8px; }
+        .badge-item { font-size: 13px; font-weight: 400; padding: 3px 10px; border-radius: 12px; line-height: 1.4; display: inline-block; border: 1px solid transparent; letter-spacing: .5px; }
+        .badge-一生 { background: #f0f3f8; color: #2b4c7e; border-color: #d2deed; }
+        .badge-年運 { background: #fbf0f0; color: #923838; border-color: #f3d1d1; }
+        .badge-學習 { background: #edf7f2; color: #1e6b42; border-color: #c9e8d7; }
+        .badge-人際關係 { background: #f7edf8; color: #7b2c83; border-color: #e8cbe9; }
+        .badge-事業 { background: #fcf6e8; color: #8c6211; border-color: #f5e2b8; }
+
+        .label-clean, .label-download { font-size: 12.5px; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 4px; letter-spacing: .5px; }
+        .label-clean { color: #8c5d49; background: #f5eae2; }
+        .label-download { color: #1b6341; background: #e2f0e8; }
+        .text-clean { font-size: 14px; color: #4a3c35; padding-left: 4px; margin-bottom: 10px; line-height: 1.6; }
+        .text-download { font-size: 14px; color: #17422d; font-weight: 500; padding-left: 4px; line-height: 1.6; }
+
+        .method-box { background: #fcf8f5; border: 1px dashed #d8c4b6; border-radius: 10px; padding: 14px 16px; margin: 12px 0 15px; font-size: 13.5px; line-height: 1.6; color: #4a3d37; break-inside: avoid; page-break-inside: avoid; }
+        .method-box h3 { font-size: 15px; color: #7a5c53; margin-bottom: 8px; border-bottom: 1px solid #ebdcd0; padding-bottom: 4px; }
+        .method-section { margin-bottom: 8px; } .method-section:last-child { margin-bottom: 0; }
+        .method-section strong { color: #8c5d49; }
+
+        .report-footer-box { text-align: center; margin-top: 15px; padding-top: 10px; font-size: 14px; font-weight: 700; color: #654a42; letter-spacing: 0.5px; line-height: 1.5; break-inside: avoid; page-break-inside: avoid; }
+        .social-title { font-size: 13px; font-weight: 600; color: var(--primary); margin: 8px 0 4px; }
+        .social-links { display: flex; justify-content: center; align-items: center; gap: 12px; padding-top: 2px; flex-wrap: wrap; }
+        .social-icon-link { display: inline-flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 50%; background: #f0e4db; color: var(--primary); transition: .2s; text-decoration: none; }
+        .social-icon-link:hover { background: var(--primary); color: #fff; transform: translateY(-2px); }
+        .social-icon-link svg { width: 18px; height: 18px; fill: currentColor; }
+        .print-url { display: none; font-size: 11px; color: #555; font-weight: 400; }
 
         @media print {
-            @page {
-                size: A4;
-                margin: 10mm 10mm;
-            }
-
-            body {
-                background: white !important;
-                padding: 0 !important;
-                color: #2b231f !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .container {
-                display: block !important;
-                width: 100% !important;
-                max-width: 100% !important;
-            }
-
-            .panel:first-child, .action-card {
-                display: none !important;
-            }
-
-            .panel {
-                border: none !important;
-                box-shadow: none !important;
-                padding: 0 !important;
-                background: transparent !important;
-            }
-
-            .report-preview-wrapper {
-                border: none !important;
-                background: transparent !important;
-                padding: 0 !important;
-            }
-
-            .report-preview {
-                padding: 0 !important;
-                box-shadow: none !important;
-            }
-
-            .report-header-box {
-                page-break-after: avoid !important;
-                break-after: avoid !important;
-                padding-bottom: 4px !important;
-                margin-bottom: 8px !important;
-                border-bottom: none !important;
-            }
-
-            .report-header-box h2 {
-                font-size: 18pt !important;
-                color: #6b4d44 !important;
-            }
-
-            .report-section {
-                page-break-inside: auto !important;
-                break-inside: auto !important;
-                margin-bottom: 10pt !important;
-            }
-
-            .section-title-bar {
-                background: #6b4d44 !important;
-                color: #ffffff !important;
-                font-size: 11pt !important;
-                padding: 4px 10px !important;
-                page-break-after: avoid !important;
-                break-after: avoid !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .section-five-wrapper {
-                page-break-before: auto !important;
-                break-before: auto !important;
-                margin-top: 0 !important;
-            }
-
-            .item-card {
-                background: #faf6f2 !important;
-                border: 1px solid #e6d8ce !important;
-                border-left: 5px solid #b88e5d !important;
-                padding: 7pt 9pt !important;
-                margin-bottom: 6pt !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .badge-item {
-                font-size: 8.5pt !important;
-                padding: 2px 6px !important;
-                border-radius: 8px !important;
-                font-weight: 400 !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .label-clean {
-                background: #eedfd5 !important;
-                color: #734837 !important;
-                font-size: 9pt !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .label-download {
-                background: #d9ebd1 !important;
-                color: #174f32 !important;
-                font-size: 9pt !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
-            }
-
-            .text-clean, .text-download {
-                font-size: 10pt !important;
-            }
-
-            .method-box {
-                background: #fbf8f5 !important;
-                border: 1px dashed #c8b4a6 !important;
-                padding: 8pt 10pt !important;
-                margin-top: 8pt !important;
-                margin-bottom: 8pt !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
-            }
-
-            .report-footer-box {
-                font-size: 10.5pt !important;
-                font-weight: bold !important;
-                color: #523b34 !important;
-                border-top: none !important;
-                margin-top: 8pt !important;
-                padding-top: 4pt !important;
-                page-break-inside: avoid !important;
-                break-inside: avoid !important;
-            }
-
-            a {
-                color: #1b6341 !important;
-                text-decoration: underline !important;
-            }
-
-            .social-links {
-                flex-direction: column !important;
-                align-items: center !important;
-                gap: 2px !important;
-            }
-
-            .social-icon-link {
-                background: transparent !important;
-                border: none !important;
-                width: auto !important;
-                height: auto !important;
-                border-radius: 0 !important;
-                display: flex !important;
-                gap: 4px !important;
-            }
-
-            .print-url {
-                display: inline-block !important;
-            }
+            @page { size: A4; margin: 10mm 10mm; }
+            body { background: #fff !important; padding: 0 !important; color: #2b231f !important; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+            .container { display: block !important; width: 100% !important; max-width: 100% !important; }
+            .panel:first-child, .action-card { display: none !important; }
+            .panel, .report-preview-wrapper, .report-preview { border: none !important; box-shadow: none !important; padding: 0 !important; background: transparent !important; }
+            .report-header-box { page-break-after: avoid !important; break-after: avoid !important; padding-bottom: 6px !important; margin-bottom: 10px !important; }
+            .report-header-box h2 { font-size: 18pt !important; color: #6b4d44 !important; }
+            .report-section { margin-bottom: 10pt !important; }
+            .section-header-block, .first-page-header-block { page-break-inside: avoid !important; break-inside: avoid !important; }
+            .section-title-bar { background: #6b4d44 !important; color: #fff !important; font-size: 11pt !important; padding: 4px 10px !important; page-break-after: avoid !important; break-after: avoid !important; }
+            .section-five-wrapper { page-break-before: auto !important; break-before: auto !important; margin-top: 10pt !important; }
+            .item-card { background: #faf6f2 !important; border: 1px solid #e6d8ce !important; border-left: 5px solid #b88e5d !important; padding: 6pt 8pt !important; margin-bottom: 6pt !important; page-break-inside: avoid !important; break-inside: avoid !important; }
+            .badge-item { font-size: 8pt !important; padding: 2px 6px !important; border-radius: 8px !important; font-weight: 400 !important; }
+            .label-clean { background: #eedfd5 !important; color: #734837 !important; font-size: 8.5pt !important; }
+            .label-download { background: #d9ebd1 !important; color: #174f32 !important; font-size: 8.5pt !important; }
+            .text-clean, .text-download { font-size: 9.5pt !important; margin-bottom: 4px !important; }
+            .method-box { background: #fbf8f5 !important; border: 1px dashed #c8b4a6 !important; padding: 8pt 10pt !important; margin: 8pt 0 !important; page-break-inside: avoid !important; break-inside: avoid !important; }
+            .report-footer-box { font-size: 10.5pt !important; font-weight: 700 !important; color: #523b34 !important; margin-top: 10pt !important; padding-top: 5pt !important; page-break-inside: avoid !important; break-inside: avoid !important; }
+            a { color: #1b6341 !important; text-decoration: underline !important; }
+            .social-title { font-size: 9.5pt !important; margin: 5px 0 2px !important; }
+            .social-links { flex-direction: column !important; align-items: center !important; gap: 2px !important; }
+            .social-icon-link { background: transparent !important; border: none !important; width: auto !important; height: auto !important; border-radius: 0 !important; display: flex !important; gap: 4px !important; }
+            .print-url { display: inline-block !important; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <!-- 輸入面板 -->
     <div class="panel">
         <h2>象棋卜卦命盤解讀</h2>
-        
-        <div class="form-group">
-            <label for="interpretDate">解讀日期：</label>
-            <input type="date" id="interpretDate">
-        </div>
-
-        <div class="form-group">
-            <label for="clientName">個案姓名：</label>
-            <input type="text" id="clientName" placeholder="請輸入個案姓名" oninput="updatePageTitle()">
-        </div>
-        
+        <div class="form-group"><label for="interpretDate">解讀日期：</label><input type="date" id="interpretDate"></div>
+        <div class="form-group"><label for="clientName">個案姓名：</label><input type="text" id="clientName" placeholder="請輸入個案姓名" oninput="updatePageTitle()"></div>
         <div class="form-group">
             <label for="clientBirth">個案出生年月日：</label>
             <input type="date" id="clientBirth" value="1990-01-01" max="9999-12-31" onchange="calculateAge()">
             <div id="ageInfo" class="age-display">🎂 實歲年齡：-- 歲</div>
         </div>
-
-        <div class="form-group">
-            <label for="readerName">解讀者：</label>
-            <input type="text" id="readerName" value="凱特" placeholder="請輸入解讀者姓名">
-        </div>
-
-        <div id="checkboxContainer">
-            <!-- 動態生成選項 -->
-        </div>
-
+        <div class="form-group"><label for="readerName">解讀者：</label><input type="text" id="readerName" value="凱特" placeholder="請輸入解讀者姓名"></div>
+        <div id="checkboxContainer"></div>
         <button class="btn-main" style="margin-top:20px;" onclick="generateReport('all')">一鍵生成解讀報告</button>
     </div>
 
-    <!-- 預覽與操作面板 -->
     <div class="panel">
-        <div class="report-preview-wrapper">
-            <div id="reportOutput" class="report-preview">
-                請在左側輸入資料與勾選項目，並點擊「一鍵生成解讀報告」。
-            </div>
-        </div>
-
+        <div class="report-preview-wrapper"><div id="reportOutput" class="report-preview">請在左側輸入資料與勾選項目，並點擊「一鍵生成解讀報告」。</div></div>
         <div class="action-card">
             <div class="action-card-title">📜 完整報告操作</div>
             <div class="btn-grid-2">
@@ -758,7 +142,6 @@
                 <button class="btn-main btn-print" onclick="printMode('all')">🖨️ 另存 PDF / 列印</button>
             </div>
         </div>
-
         <div class="action-card">
             <div class="action-card-title">🧹 分類單獨生成與下載</div>
             <div class="btn-grid-2" style="margin-bottom: 8px;">
@@ -777,161 +160,104 @@
 <script>
 document.getElementById('interpretDate').valueAsDate = new Date();
 
-function calculateAge() {
-    const birthInput = document.getElementById('clientBirth').value;
-    const ageInfo = document.getElementById('ageInfo');
-    if (!birthInput) {
-        ageInfo.innerText = '🎂 實歲年齡：-- 歲';
-        return;
-    }
-    const birthDate = new Date(birthInput);
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-        age--;
-    }
-    ageInfo.innerText = (isNaN(age) || age < 0) ? '🎂 實歲年齡：-- 歲' : `🎂 實歲年齡：${age} 歲`;
-}
+const calculateAge = () => {
+    const val = document.getElementById('clientBirth').value, info = document.getElementById('ageInfo');
+    if (!val) return info.innerText = '🎂 實歲年齡：-- 歲';
+    const birth = new Date(val), today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    if (today.getMonth() < birth.getMonth() || (today.getMonth() === birth.getMonth() && today.getDate() < birth.getDate())) age--;
+    info.innerText = (isNaN(age) || age < 0) ? '🎂 實歲年齡：-- 歲' : `🎂 實歲年齡：${age} 歲`;
+};
 
-function updatePageTitle() {
+const updatePageTitle = () => {
     const name = document.getElementById('clientName').value.trim() || "個案";
     document.title = `象棋卜卦命盤解讀 _ ${name}`;
-}
+};
 
-const scopeOptions5 = ["一生", "年運", "學習", "人際關係", "事業"];
-const scopeOptions2 = ["一生", "年運"];
+const S5 = ["一生", "年運", "學習", "人際關係", "事業"], S2 = ["一生", "年運"];
 
+// Data Structure Optimized: [id, label, clean, download]
 const optionsData = [
     {
-        categoryIndex: 0,
-        category: "一、 大腦小我慣性資料",
-        scopes: scopeOptions5,
+        category: "一、 大腦小我慣性資料", scopes: S5,
         items: [
-            { id: "mind_1", label: "想控制、對人事物有執著想法（將帥士車）", clean: "想控制、對人事物境有執著想法", download: "我知道如何放下小我、感到順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
-            { id: "mind_1_2", label: "容易暴動、想控制、對人事物有偏執想法、發生無法預期的事情（將帥暴動）", clean: "想控制、對人事物境有偏執想法、容易發生無法預期的事情", download: "我知道如何感到順流平靜、接納自己、接納外境人事物、讓他們如其所是、全然交托給宇宙" },
-            { id: "mind_2", label: "被動、情緒起伏大（象）", clean: "懶懶被動、情緒起伏大", download: "我知道如何感到積極熱情、順流平靜" },
-            { id: "mind_3", label: "意念靜不下來、濫好人（馬）", clean: "意念靜不下來、很想有所作為、濫好人", download: "我是被支持的、順流平靜、接納自己、讓自己如其所是、有界線" },
-            { id: "mind_4", label: "恐懼擔憂、急於改變（炮）", clean: "恐懼擔憂、很想有所作為", download: "我是被支持的、我是安全的、我是平安的、順流平靜、接納自己、讓自己如其所是" },
-            { id: "mind_5", label: "思慮過多、自我消耗（兵卒）", clean: "思慮過多、自我消耗", download: "我知道如何感到順流平靜、接納自己、讓自己如其所是" },
-            { id: "mind_6", label: "錢留不下來、感到不踏實（缺兵卒）", clean: "錢留不下來、時常感到不踏實", download: "我知道有餘裕的感覺是什麼、我知道如何活在當下、我是安全的" }
+            ["mind_1", "想控制、對人事物有執著想法（將帥士車）", "想控制、對人事物境有執著想法", "我知道如何放下小我、感到順流平靜、全然交托、接納外境人事物、讓他們如其所是"],
+            ["mind_1_2", "容易暴動、想控制、對人事物有偏執想法、發生無法預期的事情（將帥暴動）", "想控制、對人事物境有偏執想法、容易發生無法預期的事情", "我知道如何感到順流平靜、接納自己、接納外境人事物、讓他們如其所是、全然交托給宇宙"],
+            ["mind_2", "被動、情緒起伏大（象）", "懶懶被動、情緒起伏大", "我知道如何感到積極熱情、順流平靜"],
+            ["mind_3", "意念靜不下來、濫好人（馬）", "意念靜不下來、很想有所作為、濫好人", "我是被支持的、順流平靜、接納自己、讓自己如其所是、有界線"],
+            ["mind_4", "恐懼擔憂、急於改變（炮）", "恐懼擔憂、很想有所作為", "我是被支持的、我是安全的、我是平安的、順流平靜、接納自己、讓自己如其所是"],
+            ["mind_5", "思慮過多、自我消耗（兵卒）", "思慮過多、自我消耗", "我知道如何感到順流平靜、接納自己、讓自己如其所是"],
+            ["mind_6", "錢留不下來、感到不踏實（缺兵卒）", "錢留不下來、時常感到不踏實", "我知道有餘裕的感覺是什麼、我知道如何活在當下、我是安全的"]
         ]
     },
     {
-        categoryIndex: 1,
-        category: "二、 運勢資料",
-        scopes: scopeOptions5,
+        category: "二、 運勢資料", scopes: S5,
         items: [
-            { id: "luck_1", label: "阻礙發展（犯小人）", clean: "被人事物境阻礙想要的發展", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人" },
-            { id: "luck_2", label: "辛苦無成（付出大於收穫）", clean: "付出大於收穫、總是要很辛苦", download: "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼" },
-            { id: "luck_3", label: "糾紛與官司（法律官司）", clean: "法律官司、糾紛、名譽受損", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是" },
-            { id: "luck_4_1", label: "重來與努力白費（通吃）", clean: "努力白費、總是要很辛苦，甚至歸零、時常要重新來過", download: "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼、我知道一切的安排都是對我最好最理想的、我全然交托給宇宙" },
-            { id: "luck_4_2", label: "重來與努力白費（被通吃）", clean: "沒有主導權、努力白費、總是要很辛苦，甚至負債、歸零、時常要重新來過", download: "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼、我知道一切的安排都是對我最好最理想的、我全然交托給宇宙" },
-            { id: "luck_5", label: "事與願違（全紅全黑/陰陽不協調）", clean: "事與願違", download: "我知道如何感到順流平靜、接納自己、讓自己如其所是、我值得一切的美好" },
-            { id: "luck_6", label: "價值觀不同、格格不入（分離格）", clean: "與人格格不入、價值觀不同、分隔兩地", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起" },
-            { id: "luck_7", label: "十年運破財（被吃較多）", clean: "破財", download: "我是豐盛的源頭、我值得豐盛、我知道有餘裕的感覺是什麼、擁有財富是安全的" },
-            { id: "luck_8", label: "無法預期的外在阻礙（外在暴動格）", clean: "有無法預期的外在阻礙，可能是人、可能是事件，身邊的人容易暴動或對自己動怒", download: "我知道一切的安排都是對我最好最理想的、我全然交托給宇宙、我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人" }
+            ["luck_1", "阻礙發展（犯小人）", "被人事物境阻礙想要的發展", "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人"],
+            ["luck_2", "辛苦無成（付出大於收穫）", "付出大於收穫、總是要很辛苦", "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼"],
+            ["luck_3", "糾紛與官司（法律官司）", "法律官司、糾紛、名譽受損", "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是"],
+            ["luck_4_1", "重來與努力白費（通吃）", "努力白費、總是要很辛苦，甚至歸零、時常要重新來過", "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼、我知道一切的安排都是對我最好最理想的、我全然交托給宇宙"],
+            ["luck_4_2", "重來與努力白費（被通吃）", "沒有主導權、努力白費、總是要很辛苦，甚至負債、歸零、時常要重新來過", "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼、我知道一切的安排都是對我最好最理想的、我全然交托給宇宙"],
+            ["luck_5", "事與願違（全紅全黑/陰陽不協調）", "事與願違", "我知道如何感到順流平靜、接納自己、讓自己如其所是、我值得一切的美好"],
+            ["luck_6", "價值觀不同、格格不入（分離格）", "與人格格不入、價值觀不同、分隔兩地", "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起"],
+            ["luck_7", "十年運破財（被吃較多）", "破財", "我是豐盛的源頭、我值得豐盛、我知道有餘裕的感覺是什麼、擁有財富是安全的"],
+            ["luck_8", "無法預期的外在阻礙（外在暴動格）", "有無法預期的外在阻礙，可能是人、可能是事件，身邊的人容易暴動或對自己動怒", "我知道一切的安排都是對我最好最理想的、我全然交托給宇宙、我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人"]
         ]
     },
     {
-        categoryIndex: 2,
-        category: "三、 學習、情感與事業資料",
-        scopes: null,
+        category: "三、 學習、情感與事業資料", scopes: null,
         items: [
-            { id: "les_1", label: "難學以致用（學習格 馬/炮在中間）", clean: "學習上較難學以致用", download: "我學習是輕鬆愉快的" },
-            { id: "les_2", label: "主觀質疑、難吸收（學習格 將帥）", clean: "學習時大腦容易以主觀想法質疑老師、教材、難以吸收", download: "我知道如何放下小我、感到順流平靜、全然交托、全然信任宇宙的安排" },
-            { id: "love_1", label: "離異或分隔兩地（女生總格 離婚格）", clean: "離婚或分隔兩地", download: "我值得被尊重、我值得和靈魂伴侶白頭偕老、愛情是永恆的" },
-            { id: "love_2", label: "感情中容易受傷（情感格 犯小人/被往上吃）", clean: "感情中容易受傷", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起、我全然地愛自己" },
-            { id: "biz_1", label: "無貴人、凡事靠自己（事業格 無法往上吃）", clean: "事業上總是要靠自己、較沒有貴人", download: "我值得和志同道合的靈魂家人在一起、我全然地愛自己、人人皆是我的貴人" }
+            ["les_1", "難學以致用（學習格 馬/炮在中間）", "學習上較難學以致用", "我學習是輕鬆愉快的"],
+            ["les_2", "主觀質疑、難吸收（學習格 將帥）", "學習時大腦容易以主觀想法質疑老師、教材、難以吸收", "我知道如何放下小我、感到順流平靜、全然交托、全然信任宇宙的安排"],
+            ["love_1", "離異或分隔兩地（女生總格 離婚格）", "離婚或分隔兩地", "我值得被尊重、我值得和靈魂伴侶白頭偕老、愛情是永恆的"],
+            ["love_2", "感情中容易受傷（情感格 犯小人/被往上吃）", "感情中容易受傷", "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起、我全然地愛自己"],
+            ["biz_1", "無貴人、凡事靠自己（事業格 無法往上吃）", "事業上總是要靠自己、較沒有貴人", "我值得和志同道合的靈魂家人在一起、我全然地愛自己、人人皆是我的貴人"]
         ]
     },
     {
-        categoryIndex: 3,
-        category: "四、 健康平安資料",
-        scopes: scopeOptions2,
+        category: "四、 健康平安資料", scopes: S2,
         items: [
-            { id: "hea_1", label: "車關與血光（車關/馬被吃）", clean: "有車關與血光的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" },
-            { id: "hea_2", label: "氣血循環與頭痛（將帥）", clean: "頭痛、氣血循環困擾", download: "我是健康的、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
-            { id: "hea_3", label: "呼吸系統與肺腸（士）", clean: "肺、腸、皮膚、支氣管健康困擾", download: "我是健康的、我能表達我想要的、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
-            { id: "hea_4", label: "肝膽與眼睛（車）", clean: "肝膽、眼睛健康困擾", download: "我是健康的、我能看見真相、並心口合一、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
-            { id: "hea_5", label: "心血管與小腸（象）", clean: "心血管、小腸健康困擾", download: "我是健康的、我全然地愛自己、順流平靜、接納自己、讓自己如其所是、我被全然地愛著" },
-            { id: "hea_6", label: "關節筋絡（馬）", clean: "關節筋絡健康困擾", download: "我是健康的、我是被支持的、我是安全的、我是平安的、我的靈魂是永恆的" },
-            { id: "hea_7", label: "腎臟婦科/泌尿系統（炮）", clean: "腎臟、攝護腺/婦科、泌尿系統、骨頭、耳朵健康困擾", download: "我是健康的、我全然愛我自己、我知道如何放鬆、我值得快樂、我是安全的、我被全然地愛著" },
-            { id: "hea_8", label: "脾胃消化系統（兵卒）", clean: "脾胃消化困擾", download: "我是健康的、我信任我自己、我所做的決定都是對的" },
-            { id: "hea_9", label: "突發狀況/血光（被將帥/士威脅）", clean: "突發狀況與血光的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" },
-            { id: "hea_10", label: "生死關能量淨化（生死關）", clean: "離世的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" }
+            ["hea_1", "車關與血光（車關/馬被吃）", "有車關與血光的可能性", "我是安全的、我是平安的、我的靈魂是永恆的"],
+            ["hea_2", "氣血循環與頭痛（將帥）", "頭痛、氣血循環困擾", "我是健康的、順流平靜、全然交托、接納外境人事物、讓他們如其所是"],
+            ["hea_3", "呼吸系統與肺腸（士）", "肺、腸、皮膚、支氣管健康困擾", "我是健康的、我能表達我想要的、順流平靜、全然交托、接納外境人事物、讓他們如其所是"],
+            ["hea_4", "肝膽與眼睛（車）", "肝膽、眼睛健康困擾", "我是健康的、我能看見真相、並心口合一、順流平靜、全然交托、接納外境人事物、讓他們如其所是"],
+            ["hea_5", "心血管與小腸（象）", "心血管、小腸健康困擾", "我是健康的、我全然地愛自己、順流平靜、接納自己、讓自己如其所是、我被全然地愛著"],
+            ["hea_6", "關節筋絡（馬）", "關節筋絡健康困擾", "我是健康的、我是被支持的、我是安全的、我是平安的、我的靈魂是永恆的"],
+            ["hea_7", "腎臟婦科/泌尿系統（炮）", "腎臟、攝護腺/婦科、泌尿系統、骨頭、耳朵健康困擾", "我是健康的、我全然愛我自己、我知道如何放鬆、我值得快樂、我是安全的、我被全然地愛著"],
+            ["hea_8", "脾胃消化系統（兵卒）", "脾胃消化困擾", "我是健康的、我信任我自己、我所做的決定都是對的"],
+            ["hea_9", "突發狀況/血光（被將帥/士威脅）", "突發狀況與血光的可能性", "我是安全的、我是平安的、我的靈魂是永恆的"],
+            ["hea_10", "生死關能量淨化（生死關）", "離世的可能性", "我是安全的、我是平安的、我的靈魂是永恆的"]
         ]
     }
 ];
 
-function renderCheckboxes() {
-    const container = document.getElementById('checkboxContainer');
+const renderCheckboxes = () => {
     let html = '';
-
     optionsData.forEach((cat, idx) => {
-        html += `
-            <div class="category-header">
-                <span class="category-title">${cat.category}</span>
-                <div class="btn-select-group">
-                    <button type="button" class="btn-mini" onclick="toggleCategory(${idx}, true)">全選</button>
-                    <button type="button" class="btn-mini" onclick="toggleCategory(${idx}, false)">取消全選</button>
-                </div>
-            </div>
-            <div class="checkbox-group">
-        `;
-        cat.items.forEach(item => {
-            let scopeCheckboxesHTML = '';
-            if (cat.scopes) {
-                scopeCheckboxesHTML = `<div class="scope-checkboxes">`;
-                cat.scopes.forEach(sc => {
-                    scopeCheckboxesHTML += `
-                        <label class="scope-label">
-                            <input type="checkbox" id="scope_${item.id}_${sc}" value="${sc}">
-                            <span>${sc}</span>
-                        </label>
-                    `;
-                });
-                scopeCheckboxesHTML += `</div>`;
-            }
-
-            html += `
-                <div class="checkbox-item-wrapper">
-                    <label class="checkbox-item">
-                        <input type="checkbox" id="${item.id}" value="${item.id}">
-                        <span>${item.label}</span>
-                    </label>
-                    ${scopeCheckboxesHTML}
-                </div>
-            `;
+        html += `<div class="category-header"><span class="category-title">${cat.category}</span>
+            <div class="btn-select-group">
+                <button type="button" class="btn-mini" onclick="toggleCat(${idx},true)">全選</button>
+                <button type="button" class="btn-mini" onclick="toggleCat(${idx},false)">取消全選</button>
+            </div></div><div class="checkbox-group">`;
+        cat.items.forEach(([id, label]) => {
+            let scopesHTML = cat.scopes ? `<div class="scope-checkboxes">${cat.scopes.map(sc => `<label class="scope-label"><input type="checkbox" id="scope_${id}_${sc}" value="${sc}"><span>${sc}</span></label>`).join('')}</div>` : '';
+            html += `<div class="checkbox-item-wrapper"><label class="checkbox-item"><input type="checkbox" id="${id}" value="${id}"><span>${label}</span></label>${scopesHTML}</div>`;
         });
-        html += `</div>`;
+        html += '</div>';
     });
+    document.getElementById('checkboxContainer').innerHTML = html;
+};
 
-    container.innerHTML = html;
-}
-
-function toggleCategory(categoryIndex, selectAll) {
-    const category = optionsData[categoryIndex];
-    if (!category) return;
-    category.items.forEach(item => {
-        const cb = document.getElementById(item.id);
-        if (cb) cb.checked = selectAll;
+const toggleCat = (idx, selectAll) => {
+    optionsData[idx].items.forEach(([id]) => {
+        const el = document.getElementById(id);
+        if (el) el.checked = selectAll;
     });
-}
+};
 
-function getSelectedScopes(itemId, scopes) {
-    if (!scopes) return [];
-    let selected = [];
-    scopes.forEach(sc => {
-        const scCb = document.getElementById(`scope_${itemId}_${sc}`);
-        if (scCb && scCb.checked) {
-            selected.push(sc);
-        }
-    });
-    return selected;
-}
+const getSelectedScopes = (id, scopes) => scopes ? scopes.filter(sc => document.getElementById(`scope_${id}_${sc}`)?.checked) : [];
 
-function generateReport(mode = 'all') {
+const generateReport = (mode = 'all') => {
     updatePageTitle();
     const name = document.getElementById('clientName').value.trim() || "OOO";
     const date = document.getElementById('interpretDate').value || new Date().toISOString().split('T')[0];
@@ -941,134 +267,138 @@ function generateReport(mode = 'all') {
     if (mode === 'clean') titleText = "象棋卜卦命盤解讀 _ 推薦療癒清理資料";
     if (mode === 'download') titleText = "象棋卜卦命盤解讀 _ 推薦下載資料";
 
-    let reportHTML = `
-        <div class="report-header-box">
-            <h2>${titleText}</h2>
-            <div class="report-meta">
-                <span><strong>解讀日期：</strong>${date}</span>
-                <span><strong>個案姓名：</strong>${name}</span>
-                ${reader ? `<span><strong>解讀者：</strong>${reader}</span>` : ''}
-            </div>
-        </div>
-    `;
+    const headerHTML = `<div class="report-header-box"><h2>${titleText}</h2><div class="report-meta"><span><strong>解讀日期：</strong>${date}</span><span><strong>個案姓名：</strong>${name}</span>${reader ? `<span><strong>解讀者：</strong>${reader}</span>` : ''}</div></div>`;
 
-    let hasContent = false;
+    let reportHTML = '';
+    let isFirstCategoryPrinted = false;
 
     optionsData.forEach(cat => {
-        let catItemsHTML = '';
-
-        cat.items.forEach(item => {
-            const checkbox = document.getElementById(item.id);
-            if (checkbox && checkbox.checked) {
-                let itemContent = '';
-                const selectedScopes = getSelectedScopes(item.id, cat.scopes);
-
-                let badgesHTML = '';
-                if (selectedScopes.length > 0) {
-                    badgesHTML = '<div class="badge-group">';
-                    selectedScopes.forEach(sc => {
-                        badgesHTML += `<span class="badge-item badge-${sc}">${sc}</span>`;
-                    });
-                    badgesHTML += '</div>';
-                }
+        let selectedCards = [];
+        cat.items.forEach(([id, _, clean, download]) => {
+            if (document.getElementById(id)?.checked) {
+                let itemContent = '', scopes = getSelectedScopes(id, cat.scopes);
+                let badgesHTML = scopes.length ? `<div class="badge-group">${scopes.map(sc => `<span class="badge-item badge-${sc}">${sc}</span>`).join('')}</div>` : '';
 
                 if (mode === 'all' || mode === 'clean') {
-                    itemContent += `
-                        <div><span class="label-clean">推薦療癒清理的資料</span></div>
-                        ${badgesHTML}
-                        <div class="text-clean">• 體驗的人生劇情：${item.clean}</div>
-                    `;
+                    itemContent += `<div><span class="label-clean">推薦療癒清理的資料</span></div>${badgesHTML}<div class="text-clean">• 體驗的人生劇情：${clean}</div>`;
                 }
-
                 if (mode === 'all' || mode === 'download') {
-                    itemContent += `
-                        <div><span class="label-download">推薦下載的資料</span></div>
-                        <div class="text-download">• ${item.download}</div>
-                    `;
+                    itemContent += `<div><span class="label-download">推薦下載的資料</span></div><div class="text-download">✦ ${download}</div>`;
                 }
-
-                catItemsHTML += `
-                    <div class="item-card">
-                        ${itemContent}
-                    </div>
-                `;
+                selectedCards.push(`<div class="item-card">${itemContent}</div>`);
             }
         });
 
-        if (catItemsHTML !== '') {
-            hasContent = true;
-            reportHTML += `
-                <div class="report-section">
-                    <div class="section-title-bar">${cat.category}</div>
-                    ${catItemsHTML}
-                </div>
-            `;
+        if (selectedCards.length > 0) {
+            const firstCard = selectedCards.shift();
+            const remainingCards = selectedCards.join('');
+            
+            if (!isFirstCategoryPrinted) {
+                // 第一個出現的區塊：跟主頁頭資訊綁在一起，防止頁頭被獨立留在一頁
+                reportHTML += `<div class="report-section">
+                    <div class="first-page-header-block">
+                        ${headerHTML}
+                        <div class="section-title-bar">${cat.category}</div>
+                        ${firstCard}
+                    </div>
+                    ${remainingCards}
+                </div>`;
+                isFirstCategoryPrinted = true;
+            } else {
+                // 後續區塊：大標題與其第一張卡片黏著
+                reportHTML += `<div class="report-section">
+                    <div class="section-header-block">
+                        <div class="section-title-bar">${cat.category}</div>
+                        ${firstCard}
+                    </div>
+                    ${remainingCards}
+                </div>`;
+            }
         }
     });
 
-    if (!hasContent) {
-        document.getElementById('reportOutput').innerHTML = '<div style="text-align:center; padding: 40px; color: #999;">尚未勾選任何項目，請在左側勾選後點擊生成。</div>';
-        return;
+    // 若完全沒有勾選前四大項，頁頭單獨顯示
+    if (!isFirstCategoryPrinted) {
+        reportHTML += headerHTML;
     }
 
-    // 附帶療癒說明與頁尾資訊
-    reportHTML += `
-        <div class="method-box">
-            <h3>✨ 療癒清理與下載建議方式</h3>
-            <div class="method-section">
-                <strong>1. 療癒清理：</strong>建議使用希塔療癒、信念重塑、或能量淨化方式，將上述體驗的人生劇情與限制性信念進行釋放與清理。
-            </div>
-            <div class="method-section">
-                <strong>2. 下載感受：</strong>將下載資料的正面信念與感受下載至全身細胞，體會順流、平安與豐盛的感覺。
-            </div>
-        </div>
+    // 第五大項：包含標題與第一個方法框黏合，防斷頁
+    let sectionFiveContent = '';
+    if (mode === 'all' || mode === 'clean') {
+        sectionFiveContent += `<div class="method-box"><h3>療癒清理資料方法</h3>
+            <div class="method-section"><strong>🧹 默唸【零極限】：</strong><br><strong>精簡版：</strong>對不起、請原諒我、謝謝你、我愛你<br><strong>完整版：</strong>${name} 對不起、請原諒過去的我不明白、才有這樣的資料，XX（對方的名字、如果有他人的話）謝謝你、給我機會清理這個資料，我愛你。</div>
+            <div class="method-section"><strong>🧹 宣告一下：</strong><br>我（們）的本質（都）是沒有任何問題的，只是有些資料、才有這樣的劇情。資料也不是我（們）的，是過去世的祖先或前世，有著類似的傷痛經驗，他們也不是故意的，沒有人是故意的。</div>
+            <div class="method-section"><strong>🧹 唸數遍經文、咒，如：</strong><br>嗡啊吽、南無阿彌陀佛、南無觀世音菩薩、地藏菩薩摩訶薩、廣大不空摩尼咒、聖經…等</div></div>`;
+    }
 
-        <div class="report-footer-box">
-            <div>祝福您 在覺知中輕鬆順流，擁抱無限豐盛與平安！</div>
-            <div class="social-title">歡迎關注與聯繫：</div>
-            <div class="social-links">
-                <a href="https://line.me" target="_blank" class="social-icon-link" title="LINE">
-                    <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 5.82 2 10.53c0 4.23 3.52 7.77 8.28 8.41.32.07.76.21.87.49.1.25.07.64.03.89l-.17 1.02c-.05.33-.25 1.31 1.15.71 1.4-.6 7.56-4.45 10.32-7.62C24.08 12.37 22 2 12 2z"/></svg>
-                    <span class="print-url">LINE: @your_line_id</span>
-                </a>
-                <a href="https://instagram.com" target="_blank" class="social-icon-link" title="Instagram">
-                    <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    <span class="print-url">IG: @your_instagram</span>
-                </a>
-            </div>
+    if (mode === 'all' || mode === 'download') {
+        sectionFiveContent += `<div class="method-box"><h3>下載資料方法</h3>
+            <div class="method-section">🌱 每天唸這些資料給自己聽，讓大腦表意識記得後，漸漸會進入到潛意識、也就是個人意識資料庫中</div>
+            <div class="method-section">🌱 到宇宙源頭的白光中對宇宙源頭說：「請為我下載這個資料，謝謝你、我愛你」想像宇宙源頭白光無條件的愛、化身為你想要下載的資料，也想像你有個個人意識資料庫（例如：一顆懸浮在你頭頂的光球），再想像白光資料進入到你的資料庫中。</div>
+            <div class="method-section" style="margin-top:8px;">（如何連結宇宙源頭的白光可參考凱特這支影片：<a href="https://youtu.be/ydKdGoucbgc" target="_blank" style="color:#1b6341;word-break:break-all;">https://youtu.be/ydKdGoucbgc</a> ）</div></div>`;
+    }
+
+    reportHTML += `<div class="report-section section-five-wrapper">
+        <div class="section-header-block">
+            <div class="section-title-bar">五、 療癒清理與下載資料</div>
+            ${sectionFiveContent}
         </div>
-    `;
+    </div>`;
+
+    reportHTML += `<div class="report-footer-box">願你在每一個當下，都能活出真實的自己，感受到輕而易舉、本自具足。宇宙愛你💖
+        <div class="social-title">凱特的社群平台</div>
+        <div class="social-links">
+            <a href="https://www.youtube.com/@katesungoodlife" target="_blank" class="social-icon-link" title="YouTube"><svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg><span class="print-url">YouTube: https://www.youtube.com/@katesungoodlife</span></a>
+            <a href="https://www.facebook.com/katesuncourse" target="_blank" class="social-icon-link" title="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg><span class="print-url">FB: https://www.facebook.com/katesuncourse</span></a>
+            <a href="https://www.instagram.com/katesuncourse/" target="_blank" class="social-icon-link" title="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg><span class="print-url">IG: https://www.instagram.com/katesuncourse/</span></a>
+        </div></div>`;
 
     document.getElementById('reportOutput').innerHTML = reportHTML;
-}
+};
 
-function copyReport() {
-    const reportElem = document.getElementById('reportOutput');
-    if (!reportElem || reportElem.innerText.includes("請在左側輸入資料")) {
-        alert("請先生成報告內容再進行複製！");
-        return;
+const printMode = mode => { generateReport(mode); setTimeout(() => window.print(), 150); };
+
+const copyReport = () => {
+    const reportNode = document.getElementById('reportOutput');
+    if (!reportNode) return;
+    let L = [];
+    const head = reportNode.querySelector('.report-header-box');
+    if (head) {
+        L.push(`${head.querySelector('h2')?.innerText.trim()}\n`);
+        head.querySelectorAll('.report-meta span').forEach(m => L.push(m.innerText.trim()));
+        L.push('');
     }
-    
-    // 複製純文字內容
-    const text = reportElem.innerText;
-    navigator.clipboard.writeText(text).then(() => {
-        alert("報告內容已成功複製到剪貼簿！");
-    }).catch(err => {
-        alert("複製失敗，請手動複製。");
+    reportNode.querySelectorAll('.report-section').forEach(sec => {
+        const t = sec.querySelector('.section-title-bar');
+        if (t) L.push("----------------------------------------", `📌 ${t.innerText.trim()}`, "----------------------------------------");
+        sec.querySelectorAll('.item-card').forEach(card => {
+            const cl = card.querySelector('.label-clean'), ct = card.querySelector('.text-clean'), b = card.querySelectorAll('.badge-item');
+            const dl = card.querySelector('.label-download'), dt = card.querySelector('.text-download');
+            if (cl && ct) L.push(`${cl.innerText.trim()}${b.length ? ' ' + Array.from(b).map(x=>x.innerText.trim()).join(' ') : ''}`, ct.innerText.trim());
+            if (dl && dt) L.push(dl.innerText.trim(), dt.innerText.trim());
+            L.push('');
+        });
     });
-}
+    reportNode.querySelectorAll('.method-box').forEach(box => {
+        const bt = box.querySelector('h3');
+        if (bt) L.push(bt.innerText.trim(), "----------------------------------------");
+        box.querySelectorAll('.method-section').forEach(m => L.push(m.innerText.trim(), ''));
+    });
+    if (reportNode.querySelector('.report-footer-box')) {
+        L.push("----------------------------------------", "✨ 願你在每一個當下，都能活出真實的自己，感受到輕而易舉、本自具足。宇宙愛你💖", "【凱特的社群平台】", "YouTube: https://www.youtube.com/@katesungoodlife", "FB: https://www.facebook.com/katesuncourse", "IG: https://www.instagram.com/katesuncourse/");
+    }
+    fallbackCopy(L.join('\n'));
+};
 
-function printMode(mode) {
-    generateReport(mode);
-    setTimeout(() => {
-        window.print();
-    }, 300);
-}
+const fallbackCopy = text => {
+    const area = document.createElement("textarea");
+    area.value = text; document.body.appendChild(area); area.select();
+    try { document.execCommand('copy'); alert('報告內容已成功複製！'); } catch (e) { alert('複製失敗，請手動複製。'); }
+    document.body.removeChild(area);
+};
 
-// 初始化渲染核取方塊與算實歲
 renderCheckboxes();
 calculateAge();
 </script>
-
 </body>
 </html>
