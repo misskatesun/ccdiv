@@ -343,6 +343,7 @@
             letter-spacing: 2px;
             color: var(--primary-color);
             font-weight: 700;
+            border-bottom: none !important;
         }
 
         .report-meta {
@@ -357,6 +358,12 @@
 
         .report-section {
             margin-bottom: 18px;
+        }
+
+        /* 確保標題與第一個卡片緊密連結不被切斷 */
+        .section-title-group {
+            break-inside: avoid !important;
+            page-break-inside: avoid !important;
         }
 
         /* 第五大區塊：療癒清理與下載資料 (列印時強制換頁) */
@@ -375,7 +382,7 @@
             border-radius: 6px;
             margin-bottom: 10px;
             letter-spacing: 1px;
-            display: inline-block;
+            display: block;
             break-after: avoid !important;
             page-break-after: avoid !important;
         }
@@ -604,10 +611,16 @@
             .report-header-box h2 {
                 font-size: 18pt !important;
                 color: #6b4d44 !important;
+                border-bottom: none !important;
             }
 
             .report-section {
                 margin-bottom: 10pt !important;
+            }
+
+            .section-title-group {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
             }
 
             .section-title-bar {
@@ -970,7 +983,7 @@ function generateReport(mode = 'all') {
 
     // 渲染 前四大標題 (一至四) 的勾選項結果
     optionsData.forEach(cat => {
-        let catItemsHTML = '';
+        let activeCards = [];
 
         cat.items.forEach(item => {
             const checkbox = document.getElementById(item.id);
@@ -1012,19 +1025,23 @@ function generateReport(mode = 'all') {
                     `;
                 }
 
-                catItemsHTML += `
+                activeCards.push(`
                     <div class="item-card" data-tags="${selectedScopes.join(',')}">
                         ${itemContent}
                     </div>
-                `;
+                `);
             }
         });
 
-        if (catItemsHTML !== '') {
+        if (activeCards.length > 0) {
+            const firstCard = activeCards.shift();
             reportHTML += `
                 <div class="report-section">
-                    <div class="section-title-bar">${cat.category}</div>
-                    ${catItemsHTML}
+                    <div class="section-title-group">
+                        <div class="section-title-bar">${cat.category}</div>
+                        ${firstCard}
+                    </div>
+                    ${activeCards.join('')}
                 </div>
             `;
         }
