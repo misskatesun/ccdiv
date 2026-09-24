@@ -136,14 +136,16 @@
         }
 
         .checkbox-item-wrapper {
-            padding: 6px 8px;
-            border-radius: 6px;
             background: #fdfaf7;
-            border: 1px solid #f2e6dd;
+            border: 1px solid #f2e6dc;
+            border-radius: 8px;
+            padding: 8px 10px;
+            transition: background 0.15s, border-color 0.15s;
         }
 
         .checkbox-item-wrapper:hover {
             background: #f7efe9;
+            border-color: #e3d2c4;
         }
 
         .checkbox-item {
@@ -151,7 +153,9 @@
             align-items: flex-start;
             gap: 10px;
             font-size: 14px;
+            font-weight: 600;
             cursor: pointer;
+            color: var(--primary-color);
         }
 
         .checkbox-item input {
@@ -159,27 +163,31 @@
             accent-color: var(--primary-color);
         }
 
-        .scope-checkboxes {
+        /* 標籤 (Tags) 勾選列樣式 */
+        .scope-tags-container {
             display: flex;
             flex-wrap: wrap;
-            gap: 8px 12px;
+            gap: 6px 12px;
             margin-top: 6px;
-            padding-left: 28px;
+            margin-left: 24px;
+            padding-top: 4px;
+            border-top: 1px dashed #eeded2;
         }
 
-        .scope-label {
-            font-size: 12.5px;
-            color: #6b584f;
+        .scope-tag-label {
             display: inline-flex;
             align-items: center;
             gap: 4px;
-            cursor: pointer;
+            font-size: 12px;
             font-weight: normal;
-            margin-bottom: 0;
+            color: #66544d;
+            cursor: pointer;
         }
 
-        .scope-label input {
+        .scope-tag-label input {
             accent-color: var(--secondary-color);
+            width: 13px;
+            height: 13px;
         }
 
         .btn-main {
@@ -319,8 +327,8 @@
         .report-header-box {
             text-align: center;
             border-bottom: 2px solid #e0d0c3;
-            padding-bottom: 14px;
-            margin-bottom: 20px;
+            padding-bottom: 18px;
+            margin-bottom: 25px;
             position: relative;
         }
 
@@ -330,12 +338,12 @@
             width: 60px;
             height: 3px;
             background: var(--secondary-color);
-            margin: 10px auto 0 auto;
+            margin: 12px auto 0 auto;
             border-radius: 2px;
         }
 
         .report-header-box h2 {
-            margin: 0 0 6px 0;
+            margin: 0 0 8px 0;
             font-size: 22px;
             letter-spacing: 2px;
             color: var(--primary-color);
@@ -349,12 +357,13 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 15px 20px;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .report-section {
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             page-break-inside: avoid;
+            break-inside: avoid;
         }
 
         /* 第五大區塊：療癒清理與下載資料 (列印時強制換頁) */
@@ -371,9 +380,11 @@
             background: linear-gradient(135deg, #7a5c53, #947167);
             padding: 6px 14px;
             border-radius: 6px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             letter-spacing: 1px;
             display: inline-block;
+            page-break-after: avoid;
+            break-after: avoid;
         }
 
         .item-card {
@@ -384,61 +395,44 @@
             padding: 12px 15px;
             margin-bottom: 12px;
             page-break-inside: avoid;
+            break-inside: avoid;
             position: relative;
         }
 
-        /* 修改需求 1：標籤放大、字體細、清楚放置於清理資料下方 */
-        .badge-group {
+        .item-card-header {
             display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
             flex-wrap: wrap;
             gap: 6px;
-            margin-top: 5px;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .badge-item {
-            font-size: 13px;
-            font-weight: 400; /* 字體再細一點 */
-            padding: 3px 10px; /* 尺寸放大 */
+        .tags-badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        /* 莫蘭迪風格標籤樣式 */
+        .tag-badge {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 8px;
             border-radius: 12px;
-            line-height: 1.4;
-            display: inline-block;
-            border: 1px solid transparent;
             letter-spacing: 0.5px;
+            line-height: 1.3;
+            display: inline-block;
         }
 
-        .badge-一生 {
-            background-color: #f0f3f8;
-            color: #2b4c7e;
-            border-color: #d2deed;
-        }
-
-        .badge-年運 {
-            background-color: #fbf0f0;
-            color: #923838;
-            border-color: #f3d1d1;
-        }
-
-        .badge-學習 {
-            background-color: #edf7f2;
-            color: #1e6b42;
-            border-color: #c9e8d7;
-        }
-
-        .badge-人際關係 {
-            background-color: #f7edf8;
-            color: #7b2c83;
-            border-color: #e8cbe9;
-        }
-
-        .badge-事業 {
-            background-color: #fcf6e8;
-            color: #8c6211;
-            border-color: #f5e2b8;
-        }
+        .tag-badge-一生 { background-color: #8c6a5e; color: #ffffff; }
+        .tag-badge-年運 { background-color: #b87d4b; color: #ffffff; }
+        .tag-badge-學習 { background-color: #587989; color: #ffffff; }
+        .tag-badge-人際關係 { background-color: #83677b; color: #ffffff; }
+        .tag-badge-事業 { background-color: #4a7c59; color: #ffffff; }
 
         .label-clean {
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 700;
             color: #8c5d49;
             background: #f5eae2;
@@ -458,7 +452,7 @@
         }
 
         .label-download {
-            font-size: 12.5px;
+            font-size: 12px;
             font-weight: 700;
             color: #1b6341;
             background: #e2f0e8;
@@ -573,7 +567,7 @@
         @media print {
             @page {
                 size: A4;
-                margin: 12mm 10mm;
+                margin: 15mm 12mm;
             }
 
             body {
@@ -612,34 +606,16 @@
                 box-shadow: none !important;
             }
 
-            /* 修改需求 2：改善第一頁大幅度留白 */
-            .report-header-box {
-                page-break-after: avoid !important;
-                break-after: avoid !important;
-                padding-bottom: 10px !important;
-                margin-bottom: 12px !important;
-            }
-
             .report-header-box h2 {
-                font-size: 20pt !important;
+                font-size: 24pt !important;
                 color: #6b4d44 !important;
-            }
-
-            .report-section {
-                page-break-inside: auto !important;
-                margin-bottom: 14px !important;
-            }
-
-            .report-section:first-of-type {
-                page-break-before: avoid !important;
-                break-before: avoid !important;
             }
 
             .section-title-bar {
                 background: #6b4d44 !important;
                 color: #ffffff !important;
-                font-size: 11pt !important;
-                padding: 4px 10px !important;
+                font-size: 12pt !important;
+                padding: 5px 12px !important;
                 page-break-after: avoid !important;
                 break-after: avoid !important;
                 -webkit-print-color-adjust: exact !important;
@@ -656,18 +632,32 @@
                 background: #faf6f2 !important;
                 border: 1px solid #e6d8ce !important;
                 border-left: 5px solid #b88e5d !important;
-                padding: 8pt 10pt !important;
-                margin-bottom: 8pt !important;
+                padding: 10pt 12pt !important;
+                margin-bottom: 10pt !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+
+            .section-five-wrapper {
+                page-break-before: always !important;
+                break-before: page !important;
+                margin-top: 0 !important;
+            }
+
+            .item-card {
+                background: #faf6f2 !important;
+                border: 1px solid #e6d8ce !important;
+                border-left: 5px solid #b88e5d !important;
+                padding: 10pt 12pt !important;
+                margin-bottom: 10pt !important;
                 page-break-inside: avoid !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
 
-            .badge-item {
-                font-size: 8.5pt !important;
-                padding: 2px 6px !important;
-                border-radius: 8px !important;
-                font-weight: 400 !important;
+            .tag-badge {
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -675,7 +665,7 @@
             .label-clean {
                 background: #eedfd5 !important;
                 color: #734837 !important;
-                font-size: 9pt !important;
+                font-size: 9.5pt !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
@@ -683,13 +673,13 @@
             .label-download {
                 background: #d9ebd1 !important;
                 color: #174f32 !important;
-                font-size: 9pt !important;
+                font-size: 9.5pt !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
 
             .text-clean, .text-download {
-                font-size: 10pt !important;
+                font-size: 10.5pt !important;
             }
 
             .method-box {
@@ -699,7 +689,7 @@
             }
 
             .report-footer-box {
-                font-size: 12pt !important;
+                font-size: 13pt !important;
                 font-weight: bold !important;
                 color: #523b34 !important;
             }
@@ -712,7 +702,7 @@
             .social-links {
                 flex-direction: column !important;
                 align-items: center !important;
-                gap: 4px !important;
+                gap: 6px !important;
             }
 
             .social-icon-link {
@@ -732,7 +722,6 @@
     </style>
 </head>
 <body>
-
 <div class="container">
     <!-- 輸入面板 -->
     <div class="panel">
@@ -836,24 +825,20 @@ function updatePageTitle() {
     document.title = `象棋卜卦命盤解讀 _ ${name}`;
 }
 
-// 可選標籤定義
-const scopeOptions5 = ["一生", "年運", "學習", "人際關係", "事業"];
-const scopeOptions2 = ["一生", "年運"];
+// 標籤選項目錄
+const scopeTagOptions = ["一生", "年運", "學習", "人際關係", "事業"];
 
 // 資料庫：包含判讀與對應的清理/下載文字
 const optionsData = [
     {
         categoryIndex: 0,
         category: "一、 大腦小我慣性資料",
-        scopes: scopeOptions5,
+        hasScopeTags: true,
         items: [
-            /* 修改需求 3 */
-            { id: "mind_1", label: "想控制、對人事物有執著想法（將帥士車）", clean: "想控制、對人事物境有執著想法", download: "我知道如何放下小我、感到順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
-            /* 修改需求 4 */
-            { id: "mind_1_2", label: "容易暴動、想控制、對人事物有偏執想法、發生無法預期的事情（將帥暴動）", clean: "想控制、對人事物境有偏執想法、容易發生無法預期的事情", download: "我知道如何感到順流平靜、接納自己、接納外境人事物、讓他們如其所是、全然交托給宇宙" },
+            { id: "mind_1", label: "想控制、對人事物有既定想法（將帥士車）", clean: "想控制、對人事物境有既定想法", download: "我知道如何放下小我、感到順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
             { id: "mind_2", label: "被動、情緒起伏大（象）", clean: "懶懶被動、情緒起伏大", download: "我知道如何感到積極熱情、順流平靜" },
             { id: "mind_3", label: "意念靜不下來、濫好人（馬）", clean: "意念靜不下來、很想有所作為、濫好人", download: "我是被支持的、順流平靜、接納自己、讓自己如其所是、有界線" },
-            { id: "mind_4", label: "恐懼擔憂、急於改變（炮）", clean: "恐懼擔憂、很想有所作為", download: "我是被支持的、我是安全的、我是平安的、順流平靜、接納自己、讓自己如其所是" },
+            { id: "mind_4", label: "恐懼擔擔憂、急於改變（炮）", clean: "恐懼擔憂、很想有所作為", download: "我是被支持的、我是安全的、我是平安的、順流平靜、接納自己、讓自己如其所是" },
             { id: "mind_5", label: "思慮過多、自我消耗（兵卒）", clean: "思慮過多、自我消耗", download: "我知道如何感到順流平靜、接納自己、讓自己如其所是" },
             { id: "mind_6", label: "錢留不下來、感到不踏實（缺兵卒）", clean: "錢留不下來、時常感到不踏實", download: "我知道有餘裕的感覺是什麼、我知道如何活在當下、我是安全的" }
         ]
@@ -861,7 +846,7 @@ const optionsData = [
     {
         categoryIndex: 1,
         category: "二、 運勢資料",
-        scopes: scopeOptions5,
+        hasScopeTags: true,
         items: [
             { id: "luck_1", label: "阻礙發展（犯小人）", clean: "被人事物境阻礙想要的發展", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人" },
             { id: "luck_2", label: "辛苦無成（付出大於收穫）", clean: "付出大於收穫、總是要很辛苦", download: "我值得豐盛、我值得獲得我想要的、輕鬆就能豐盛、我知道有餘裕的感覺是什麼" },
@@ -871,14 +856,13 @@ const optionsData = [
             { id: "luck_5", label: "事與願違（全紅全黑/陰陽不協調）", clean: "事與願違", download: "我知道如何感到順流平靜、接納自己、讓自己如其所是、我值得一切的美好" },
             { id: "luck_6", label: "價值觀不同、格格不入（分離格）", clean: "與人格格不入、價值觀不同、分隔兩地", download: "我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人、我值得和志同道合的靈魂家人在一起" },
             { id: "luck_7", label: "十年運破財（被吃較多）", clean: "破財", download: "我是豐盛的源頭、我值得豐盛、我知道有餘裕的感覺是什麼、擁有財富是安全的" },
-            /* 修改需求 5 */
-            { id: "luck_8", label: "無法預期的外在阻礙（外在暴動格）", clean: "有無法預期的外在阻礙，可能是人、可能是事件，身邊的人容易暴動或對自己動怒", download: "我知道一切的安排都是對我最好最理想的、我全然交托給宇宙、我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人" }
+            { id: "luck_8", label: "無法預期的外在阻礙（外在暴動格）", clean: "有無法預期的外在阻礙，可能是人、可能是事件", download: "我知道一切的安排都是對我最好最理想的、我全然交托給宇宙、我知道如何感到順流平靜、接納外境人事物、讓他們如其所是、人人皆是我的貴人" }
         ]
     },
     {
         categoryIndex: 2,
         category: "三、 學習、情感與事業資料",
-        scopes: null,
+        hasScopeTags: false,
         items: [
             { id: "les_1", label: "難學以致用（學習格 馬/炮在中間）", clean: "學習上較難學以致用", download: "我學習是輕鬆愉快的" },
             { id: "les_2", label: "主觀質疑、難吸收（學習格 將帥）", clean: "學習時大腦容易以主觀想法質疑老師、教材、難以吸收", download: "我知道如何放下小我、感到順流平靜、全然交托、全然信任宇宙的安排" },
@@ -890,8 +874,7 @@ const optionsData = [
     {
         categoryIndex: 3,
         category: "四、 健康平安資料",
-        /* 修改需求 6 */
-        scopes: scopeOptions2,
+        hasScopeTags: false,
         items: [
             { id: "hea_1", label: "車關與血光（車關/馬被吃）", clean: "有車關與血光的可能性", download: "我是安全的、我是平安的、我的靈魂是永恆的" },
             { id: "hea_2", label: "氣血循環與頭痛（將帥）", clean: "頭痛、氣血循環困擾", download: "我是健康的、順流平靜、全然交托、接納外境人事物、讓他們如其所是" },
@@ -907,7 +890,6 @@ const optionsData = [
     }
 ];
 
-// 動態繪製勾選項
 function renderCheckboxes() {
     const container = document.getElementById('checkboxContainer');
     let html = '';
@@ -924,18 +906,18 @@ function renderCheckboxes() {
             <div class="checkbox-group">
         `;
         cat.items.forEach(item => {
-            let scopeCheckboxesHTML = '';
-            if (cat.scopes) {
-                scopeCheckboxesHTML = `<div class="scope-checkboxes">`;
-                cat.scopes.forEach(sc => {
-                    scopeCheckboxesHTML += `
-                        <label class="scope-label">
-                            <input type="checkbox" id="scope_${item.id}_${sc}" value="${sc}">
-                            <span>${sc}</span>
+            let scopeTagsHtml = '';
+            if (cat.hasScopeTags) {
+                scopeTagsHtml += `<div class="scope-tags-container">`;
+                scopeTagOptions.forEach(tag => {
+                    scopeTagsHtml += `
+                        <label class="scope-tag-label">
+                            <input type="checkbox" id="${item.id}_tag_${tag}" value="${tag}">
+                            <span>${tag}</span>
                         </label>
                     `;
                 });
-                scopeCheckboxesHTML += `</div>`;
+                scopeTagsHtml += `</div>`;
             }
 
             html += `
@@ -944,7 +926,7 @@ function renderCheckboxes() {
                         <input type="checkbox" id="${item.id}" value="${item.id}">
                         <span>${item.label}</span>
                     </label>
-                    ${scopeCheckboxesHTML}
+                    ${scopeTagsHtml}
                 </div>
             `;
         });
@@ -964,20 +946,6 @@ function toggleCategory(categoryIndex, selectAll) {
     });
 }
 
-// 取得某個項目勾選的標籤陣列
-function getSelectedScopes(itemId, scopes) {
-    if (!scopes) return [];
-    let selected = [];
-    scopes.forEach(sc => {
-        const scCb = document.getElementById(`scope_${itemId}_${sc}`);
-        if (scCb && scCb.checked) {
-            selected.push(sc);
-        }
-    });
-    return selected;
-}
-
-// 生成報告
 function generateReport(mode = 'all') {
     updatePageTitle();
     const name = document.getElementById('clientName').value.trim() || "OOO";
@@ -1007,35 +975,43 @@ function generateReport(mode = 'all') {
             const checkbox = document.getElementById(item.id);
             if (checkbox && checkbox.checked) {
                 let itemContent = '';
-                const selectedScopes = getSelectedScopes(item.id, cat.scopes);
 
-                /* 修改需求 1：標籤放大、字體細、放置於【推薦療癒清理的資料】正下方 */
-                let badgesHTML = '';
-                if (selectedScopes.length > 0) {
-                    badgesHTML = '<div class="badge-group">';
-                    selectedScopes.forEach(sc => {
-                        badgesHTML += `<span class="badge-item badge-${sc}">【${sc}】</span>`;
+                // 檢查是否有勾選標籤 (一生、年運、學習、人際關係、事業)
+                let selectedTags = [];
+                if (cat.hasScopeTags) {
+                    scopeTagOptions.forEach(tag => {
+                        const tagCb = document.getElementById(`${item.id}_tag_${tag}`);
+                        if (tagCb && tagCb.checked) {
+                            selectedTags.push(tag);
+                        }
                     });
-                    badgesHTML += '</div>';
+                }
+
+                // 建立標籤 Badge HTML
+                let tagsBadgeHtml = '';
+                if (selectedTags.length > 0) {
+                    tagsBadgeHtml = `<div class="tags-badge-container">` + 
+                        selectedTags.map(t => `<span class="tag-badge tag-badge-${t}">${t}</span>`).join('') + 
+                        `</div>`;
                 }
 
                 if (mode === 'all' || mode === 'clean') {
                     itemContent += `
-                        <div><span class="label-clean">【推薦療癒清理的資料】</span></div>
-                        ${badgesHTML}
+                        <div><span class="label-clean">推薦療癒清理的資料</span></div>
                         <div class="text-clean">• 體驗的人生劇情：${item.clean}</div>
                     `;
                 }
 
                 if (mode === 'all' || mode === 'download') {
                     itemContent += `
-                        <div><span class="label-download">【推薦下載的資料】</span></div>
+                        <div><span class="label-download">推薦下載的資料</span></div>
                         <div class="text-download">✦ ${item.download}</div>
                     `;
                 }
 
                 catItemsHTML += `
-                    <div class="item-card">
+                    <div class="item-card" data-tags="${selectedTags.join(',')}">
+                        ${tagsBadgeHtml ? `<div class="item-card-header">${tagsBadgeHtml}</div>` : ''}
                         ${itemContent}
                     </div>
                 `;
@@ -1129,7 +1105,6 @@ function printMode(mode) {
     }, 150);
 }
 
-// 複製內容
 function copyReport() {
     const reportNode = document.getElementById('reportOutput');
     if (!reportNode) return;
@@ -1157,24 +1132,26 @@ function copyReport() {
 
         const cards = sec.querySelectorAll('.item-card');
         cards.forEach(card => {
+            const rawTags = card.getAttribute('data-tags');
+            let tagsText = '';
+            if (rawTags) {
+                const tagArray = rawTags.split(',').filter(Boolean);
+                if (tagArray.length > 0) {
+                    tagsText = tagArray.map(t => `${t}`).join(' ');
+                }
+            }
+
             const cleanLabel = card.querySelector('.label-clean');
             const cleanText = card.querySelector('.text-clean');
-            const badges = card.querySelectorAll('.badge-item');
             const downloadLabel = card.querySelector('.label-download');
             const downloadText = card.querySelector('.text-download');
 
             if (cleanLabel && cleanText) {
-                let scopeStr = '';
-                if (badges && badges.length > 0) {
-                    let bList = [];
-                    badges.forEach(b => bList.push(b.innerText.trim()));
-                    scopeStr = ' ' + bList.join('');
-                }
-                textLines.push(`${cleanLabel.innerText.trim()}${scopeStr}`);
+                textLines.push(`${cleanLabel.innerText.trim()} ${tagsText ? '(' + tagsText + ')' : ''}`);
                 textLines.push(`${cleanText.innerText.trim()}`);
             }
             if (downloadLabel && downloadText) {
-                textLines.push(`${downloadLabel.innerText.trim()}`);
+                textLines.push(`${downloadLabel.innerText.trim()} ${tagsText && !cleanLabel ? '(' + tagsText + ')' : ''}`);
                 textLines.push(`${downloadText.innerText.trim()}`);
             }
             textLines.push('');
