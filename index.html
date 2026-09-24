@@ -361,7 +361,7 @@
         }
 
         .report-section {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             page-break-inside: avoid;
             break-inside: avoid;
         }
@@ -380,7 +380,7 @@
             background: linear-gradient(135deg, #7a5c53, #947167);
             padding: 6px 14px;
             border-radius: 6px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
             letter-spacing: 1px;
             display: inline-block;
             page-break-after: avoid;
@@ -600,22 +600,22 @@
                 background: transparent !important;
                 padding: 0 !important;
             }
-
-            .report-preview {
-                padding: 0 !important;
-                box-shadow: none !important;
+            .report-section {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                margin-bottom: 14px !important;
             }
 
-            .report-header-box h2 {
-                font-size: 24pt !important;
-                color: #6b4d44 !important;
+            .report-section:first-of-type {
+                page-break-before: avoid !important;
+                break-before: avoid !important;
             }
 
             .section-title-bar {
                 background: #6b4d44 !important;
                 color: #ffffff !important;
-                font-size: 12pt !important;
-                padding: 5px 12px !important;
+                font-size: 11pt !important;
+                padding: 4px 10px !important;
                 page-break-after: avoid !important;
                 break-after: avoid !important;
                 -webkit-print-color-adjust: exact !important;
@@ -984,20 +984,20 @@ function generateReport(mode = 'all') {
                         if (tagCb && tagCb.checked) {
                             selectedTags.push(tag);
                         }
+                /* 修改需求 1：標籤放大、字體細、放置於【推薦療癒清理的資料】正下方；去除【】符號 */
+                let badgesHTML = '';
+                if (selectedScopes.length > 0) {
+                    badgesHTML = '<div class="badge-group">';
+                    selectedScopes.forEach(sc => {
+                        badgesHTML += `<span class="badge-item badge-${sc}">${sc}</span>`;
                     });
-                }
-
-                // 建立標籤 Badge HTML
-                let tagsBadgeHtml = '';
-                if (selectedTags.length > 0) {
-                    tagsBadgeHtml = `<div class="tags-badge-container">` + 
-                        selectedTags.map(t => `<span class="tag-badge tag-badge-${t}">${t}</span>`).join('') + 
-                        `</div>`;
+                    badgesHTML += '</div>';
                 }
 
                 if (mode === 'all' || mode === 'clean') {
                     itemContent += `
                         <div><span class="label-clean">推薦療癒清理的資料</span></div>
+                        ${badgesHTML}
                         <div class="text-clean">• 體驗的人生劇情：${item.clean}</div>
                     `;
                 }
