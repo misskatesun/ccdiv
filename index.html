@@ -56,6 +56,9 @@
         .report-header-box { text-align: center; padding-bottom: 10px; margin-bottom: 15px; }
         .report-header-box h2 { margin: 0 0 6px; font-size: 22px; letter-spacing: 2px; color: var(--primary); font-weight: 700; }
         .report-meta { font-size: 13.5px; color: #776860; display: flex; flex-wrap: wrap; justify-content: center; gap: 15px 20px; margin-top: 6px; }
+        
+        .report-notice-box { text-align: left; font-size: 13px; color: #65544c; background: #fdfaf7; border: 1px solid #eee1d8; padding: 10px 14px; border-radius: 8px; margin: 12px 0 16px; line-height: 1.6; }
+        
         .report-section { margin-bottom: 16px; }
         .section-five-wrapper { page-break-before: auto; margin-top: 20px; }
         .section-header-block, .first-page-header-block { break-inside: avoid; page-break-inside: avoid; }
@@ -65,10 +68,10 @@
         .badge-group { display: flex; flex-wrap: wrap; gap: 6px; margin: 5px 0 8px; }
         .badge-item { font-size: 13px; font-weight: 400; padding: 3px 10px; border-radius: 12px; line-height: 1.4; display: inline-block; border: 1px solid transparent; letter-spacing: .5px; }
         .badge-一生 { background: #f0f3f8; color: #2b4c7e; border-color: #d2deed; }
-        .badge-年運 { background: #fbf0f0; color: #923838; border-color: #f3d1d1; }
         .badge-學習 { background: #edf7f2; color: #1e6b42; border-color: #c9e8d7; }
         .badge-人際關係 { background: #f7edf8; color: #7b2c83; border-color: #e8cbe9; }
         .badge-事業 { background: #fcf6e8; color: #8c6211; border-color: #f5e2b8; }
+        .badge-age { background: #fbf0f0; color: #923838; border-color: #f3d1d1; }
 
         .label-clean, .label-download { font-size: 12.5px; font-weight: 700; padding: 2px 8px; border-radius: 4px; display: inline-block; margin-bottom: 4px; letter-spacing: .5px; }
         .label-clean { color: #8c5d49; background: #f5eae2; }
@@ -97,6 +100,7 @@
             .panel, .report-preview-wrapper, .report-preview { border: none !important; box-shadow: none !important; padding: 0 !important; background: transparent !important; }
             .report-header-box { page-break-after: avoid !important; break-after: avoid !important; padding-bottom: 6px !important; margin-bottom: 10px !important; }
             .report-header-box h2 { font-size: 18pt !important; color: #6b4d44 !important; }
+            .report-notice-box { background: #faf6f2 !important; border: 1px solid #e6d8ce !important; font-size: 9pt !important; padding: 6pt 10pt !important; margin: 8pt 0 10pt !important; }
             .report-section { margin-bottom: 10pt !important; }
             .section-header-block, .first-page-header-block { page-break-inside: avoid !important; break-inside: avoid !important; }
             .section-title-bar { background: #6b4d44 !important; color: #fff !important; font-size: 11pt !important; padding: 4px 10px !important; page-break-after: avoid !important; break-after: avoid !important; }
@@ -174,7 +178,8 @@ const updatePageTitle = () => {
     document.title = `象棋卜卦命盤解讀 _ ${name}`;
 };
 
-const S5 = ["一生", "年運", "學習", "人際關係", "事業"], S2 = ["一生", "年運"];
+const S5 = ["一生", "11-20歲", "21-30歲", "31-40歲", "41-50歲", "51-60歲", "61-70歲", "71-80歲", "學習", "人際關係", "事業"];
+const S2 = ["一生", "11-20歲", "21-30歲", "31-40歲", "41-50歲", "51-60歲", "61-70歲", "71-80歲"];
 
 // Data Structure Optimized: [id, label, clean, download]
 const optionsData = [
@@ -267,7 +272,18 @@ const generateReport = (mode = 'all') => {
     if (mode === 'clean') titleText = "象棋卜卦命盤解讀 _ 推薦療癒清理資料";
     if (mode === 'download') titleText = "象棋卜卦命盤解讀 _ 推薦下載資料";
 
-    const headerHTML = `<div class="report-header-box"><h2>${titleText}</h2><div class="report-meta"><span><strong>解讀日期：</strong>${date}</span><span><strong>個案姓名：</strong>${name}</span>${reader ? `<span><strong>解讀者：</strong>${reader}</span>` : ''}</div></div>`;
+    const headerHTML = `<div class="report-header-box">
+        <h2>${titleText}</h2>
+        <div class="report-meta">
+            <span><strong>解讀日期：</strong>${date}</span>
+            <span><strong>個案姓名：</strong>${name}</span>
+            ${reader ? `<span><strong>解讀者：</strong>${reader}</span>` : ''}
+        </div>
+    </div>
+    <div class="report-notice-box">
+        1. 若是命盤中有的資料、才會列出，若有特定想知道的（像是財富、情感）但並未列出，表示你沒有該主題的不OK資料，推薦直接療癒「一生」的相關資料<br>
+        2. 十年運為虛歲
+    </div>`;
 
     let reportHTML = '';
     let isFirstCategoryPrinted = false;
@@ -277,7 +293,10 @@ const generateReport = (mode = 'all') => {
         cat.items.forEach(([id, _, clean, download]) => {
             if (document.getElementById(id)?.checked) {
                 let itemContent = '', scopes = getSelectedScopes(id, cat.scopes);
-                let badgesHTML = scopes.length ? `<div class="badge-group">${scopes.map(sc => `<span class="badge-item badge-${sc}">${sc}</span>`).join('')}</div>` : '';
+                let badgesHTML = scopes.length ? `<div class="badge-group">${scopes.map(sc => {
+                    const isAge = sc.includes('歲');
+                    return `<span class="badge-item ${isAge ? 'badge-age' : 'badge-' + sc}">${sc}</span>`;
+                }).join('')}</div>` : '';
 
                 if (mode === 'all' || mode === 'clean') {
                     itemContent += `<div><span class="label-clean">推薦療癒清理的資料</span></div>${badgesHTML}<div class="text-clean">• 體驗的人生劇情：${clean}</div>`;
@@ -294,7 +313,7 @@ const generateReport = (mode = 'all') => {
             const remainingCards = selectedCards.join('');
             
             if (!isFirstCategoryPrinted) {
-                // 第一個出現的區塊：跟主頁頭資訊綁在一起，防止頁頭被獨立留在一頁
+                // 第一個出現的區塊：跟主頁頭資訊與說明文字綁在一起，防止獨立留在一頁
                 reportHTML += `<div class="report-section">
                     <div class="first-page-header-block">
                         ${headerHTML}
@@ -328,7 +347,7 @@ const generateReport = (mode = 'all') => {
         sectionFiveContent += `<div class="method-box"><h3>療癒清理資料方法</h3>
             <div class="method-section"><strong>🧹 默唸【零極限】：</strong><br><strong>精簡版：</strong>對不起、請原諒我、謝謝你、我愛你<br><strong>完整版：</strong>${name} 對不起、請原諒過去的我不明白、才有這樣的資料，XX（對方的名字、如果有他人的話）謝謝你、給我機會清理這個資料，我愛你。</div>
             <div class="method-section"><strong>🧹 宣告一下：</strong><br>我（們）的本質（都）是沒有任何問題的，只是有些資料、才有這樣的劇情。資料也不是我（們）的，是過去世的祖先或前世，有著類似的傷痛經驗，他們也不是故意的，沒有人是故意的。</div>
-            <div class="method-section"><strong>🧹 唸數遍經文、咒，如：</strong><br>嗡啊吽、南無阿彌陀佛、南無觀世音菩薩、地藏菩薩摩訶薩、廣大不空摩尼咒、聖經…等</div></div>`;
+            <div class="method-section"><strong>🧹 唸數遍經文、咒，如：</strong><br>嗡啊吽、南無阿彌陀佛、南觀世音菩薩、地藏菩薩摩訶薩、廣大不空摩尼咒、聖經…等</div></div>`;
     }
 
     if (mode === 'all' || mode === 'download') {
@@ -367,6 +386,10 @@ const copyReport = () => {
         L.push(`${head.querySelector('h2')?.innerText.trim()}\n`);
         head.querySelectorAll('.report-meta span').forEach(m => L.push(m.innerText.trim()));
         L.push('');
+    }
+    const notice = reportNode.querySelector('.report-notice-box');
+    if (notice) {
+        L.push(notice.innerText.trim(), '');
     }
     reportNode.querySelectorAll('.report-section').forEach(sec => {
         const t = sec.querySelector('.section-title-bar');
